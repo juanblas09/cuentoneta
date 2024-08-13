@@ -1,29 +1,20 @@
 <main>
-	<section class="card-decks mb-16 mt-16">
-		@if (!!previews && previews.length) {
-			@for (storylistDeck of previews; track storylistDeck.slug) {
-				<cuentoneta-storylist-card-deck
-					[canNavigateToStorylist]="true"
-					[storylist]="storylistDeck.storylist"
-					[displayTitle]="true"
-					[number]="storylistDeck.amount"
-					[isLoading]="fetchContentDirective.isLoading"
-					[displayFeaturedImage]="true"
-					[skeletonConfig]="storylistDeck.previewGridSkeletonConfig"
-					class="mb-4 block last:mb-0"
-				/>
-
-				@if (!!storylistDeck.storylist) {
-					<a
-						[routerLink]="['/' + appRoutes.StoryList, storylistDeck.storylist.slug]"
-						class="navigation-link inter-body-xl-bold mb-16 block text-right text-interactive-500 last:mb-0 hover:text-interactive-600"
-					>
-						Ver Storylist
-					</a>
-				}
-			}
+	@defer (on viewport) {
+		@if (slides$ | async; as slides) {
+			<cuentoneta-carousel [slides]="slides"> </cuentoneta-carousel>
 		}
-	</section>
+	} @placeholder {
+		<ngx-skeleton-loader
+			[theme]="{
+				'width.px': 960,
+				'height.px': 240,
+				'background-color': skeletonColor,
+				width: '100%'
+			}"
+			count="1"
+			appearance="line"
+		></ngx-skeleton-loader>
+	}
 
 	<div class="mb-4 flex content-between items-center">
 		<hr class="flex-grow" />

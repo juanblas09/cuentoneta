@@ -11,7 +11,7 @@ import { AppRoutes } from '../../app.routes';
 import { ContentService } from '../../providers/content.service';
 
 // Models
-import { StorylistCardDeck } from '@models/content.model';
+import { ContentCampaign, StorylistCardDeck } from '@models/content.model';
 
 // Directives
 import { FetchContentDirective } from '../../directives/fetch-content.directive';
@@ -21,6 +21,10 @@ import { MetaTagsDirective } from '../../directives/meta-tags.directive';
 import { PublicationCardComponent } from '../../components/publication-card/publication-card.component';
 import { StorylistCardDeckComponent } from 'src/app/components/storylist-card-deck/storylist-card-deck.component';
 import { StorylistCardComponent } from '../../components/storylist-card-component/storylist-card.component';
+import { CarouselComponent } from '../../components/carousel/carousel.component';
+import { delay, Observable, of } from 'rxjs';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { ThemeService } from '../../providers/theme.service';
 
 @Component({
 	selector: 'cuentoneta-home',
@@ -33,21 +37,29 @@ import { StorylistCardComponent } from '../../components/storylist-card-componen
 		StorylistCardDeckComponent,
 		RouterModule,
 		StorylistCardComponent,
+		CarouselComponent,
+		NgxSkeletonLoaderModule,
 	],
 	hostDirectives: [FetchContentDirective, MetaTagsDirective],
 })
 export class HomeComponent {
-	readonly appRoutes = AppRoutes;
-
-	cards: StorylistCardDeck[] = [];
-	previews: StorylistCardDeck[] = [];
-
 	// Directives
 	public fetchContentDirective = inject(FetchContentDirective);
 	private metaTagsDirective = inject(MetaTagsDirective);
 
 	// Services
 	private contentService = inject(ContentService);
+
+	readonly appRoutes = AppRoutes;
+
+	// Copy the elements from $slides and adapt to the new type
+	readonly slides$ = this.contentService.getContentCampaigns$();
+
+	cards: StorylistCardDeck[] = [];
+	previews: StorylistCardDeck[] = [];
+
+	private themeService = inject(ThemeService);
+	skeletonColor = this.themeService.pickColor('zinc', 300);
 
 	constructor() {
 		// Asignación inicial para dibujar skeletons
