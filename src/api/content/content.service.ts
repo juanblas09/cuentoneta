@@ -2,9 +2,11 @@
 import { client } from '../_helpers/sanity-connector';
 
 // Queries
-import { mapStorylist, mapStorylistTeaser } from '../_utils/functions';
-import { fetchLandingPageContentQuery } from '../_queries/content.query';
-import { FetchLandingPageContentQueryResult } from '../sanity/types';
+import { mapResources, mapStorylist, mapStorylistTeaser } from '../_utils/functions';
+import { fetchLandingPageContentQuery, fetchNewestStoriesQuery } from '../_queries/content.query';
+import { FetchLandingPageContentQueryResult, FetchNewestStoriesQueryResult } from '../sanity/types';
+import { SanityQueryArgs } from '../interfaces/queryArgs';
+import { mapMediaSourcesForStorylist } from '../_utils/media-sources.functions';
 
 export async function fetchLandingPageContent() {
 	const result: FetchLandingPageContentQueryResult = await client.fetch(fetchLandingPageContentQuery);
@@ -20,4 +22,27 @@ export async function fetchLandingPageContent() {
 	}
 
 	return { previews, cards };
+}
+
+export async function fetchNewestStories(args: { limit: number }) {
+	const result: FetchNewestStoriesQueryResult = await client.fetch(fetchNewestStoriesQuery, {
+		start: 0,
+		end: args.limit,
+	});
+
+	const stories = [];
+
+	// Toma las publicaciones que fueron traídas en la consulta a Sanity y las mapea a una colección de publicaciones
+	for (const story of result) {
+		const { body, mediaSources, ...properties } = story;
+
+		stories.push({
+			...properties,
+			media: mapMediaSourcesForStorylist(mediaSources),
+			resources: [],
+			paragraphs: body,
+		});
+	}
+
+	return stories;
 }

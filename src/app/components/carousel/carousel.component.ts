@@ -34,7 +34,7 @@ export class CarouselComponent {
 
 	readonly options: OwlOptions = Object.assign({
 		autoplay: true,
-		autoplaySpeed: 500,
+		autoplaySpeed: 1200,
 		autoplayMouseleaveTimeout: 5000,
 		loop: true,
 		mouseDrag: false,

@@ -1,5 +1,25 @@
 import groq from 'groq';
 
+export const fetchNewestStoriesQuery = groq`*[_type == 'story']
+{
+    _createdAt,
+    'slug': slug.current,
+    title,
+    language,
+    badLanguage,
+    categories,
+    body[0...3],
+    originalPublication,
+    approximateReadingTime,
+    mediaSources,
+    'author': author->{
+        slug,
+        name,
+        image,
+         nationality->
+    }
+}|order(_createdAt desc)[$start...$end]`;
+
 export const fetchLandingPageContentQuery = groq`*[_type == 'landingPage'] 
 {
     'previews': previews[]-> { 
