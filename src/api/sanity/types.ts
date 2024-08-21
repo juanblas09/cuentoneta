@@ -538,6 +538,78 @@ export type StoriesByAuthorSlugQueryResult = Array<{
 	}>;
 }>;
 
+// Source: ../src/api/_queries/content.query.ts
+// Variable: fetchNewestStoriesQuery
+// Query: *[_type == 'story']{    _createdAt,    'slug': slug.current,    title,    language,    badLanguage,    categories,    body[0...3],    originalPublication,    approximateReadingTime,    mediaSources,    'author': author->{        slug,        name,        image,         nationality->    }}|order(_createdAt desc)[$start...$end]
+export type FetchNewestStoriesQueryResult = Array<{
+	_createdAt: string;
+	slug: string;
+	title: string;
+	language: 'en' | 'es';
+	badLanguage: boolean;
+	categories: null;
+	body: BlockContent;
+	originalPublication: string;
+	approximateReadingTime: number;
+	mediaSources: Array<
+		| {
+				postId?: string;
+				title?: string;
+				spaceUrl?: string;
+				duration?: string;
+				_type: 'spaceRecording';
+				_key: string;
+		  }
+		| {
+				title?: string;
+				description?: BlockContent;
+				videoId?: string;
+				_type: 'youTubeVideo';
+				_key: string;
+		  }
+		| {
+				title?: string;
+				url?: string;
+				_type: 'audioRecording';
+				_key: string;
+		  }
+	>;
+	author: {
+		slug: Slug;
+		name: string;
+		image: {
+			asset?: {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+			};
+			hotspot?: SanityImageHotspot;
+			crop?: SanityImageCrop;
+			_type: 'image';
+		};
+		nationality: {
+			_id: string;
+			_type: 'nationality';
+			_createdAt: string;
+			_updatedAt: string;
+			_rev: string;
+			country?: string;
+			flag?: {
+				asset?: {
+					_ref: string;
+					_type: 'reference';
+					_weak?: boolean;
+					[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+				};
+				hotspot?: SanityImageHotspot;
+				crop?: SanityImageCrop;
+				_type: 'image';
+			};
+		};
+	};
+}>;
+
 // Variable: storyBySlugQuery
 // Query: *[_type == 'story' && slug.current == $slug]{  'slug': slug.current,  title,   language,  badLanguage,  epigraphs,  categories,  body,  review,  originalPublication,  approximateReadingTime,  mediaSources,  resources[]{        title,         url,         resourceType->{             title,             description,             'icon': {                'name': icon.name,                 'svg': icon.svg,                 'provider': icon.provider                 }             }   },  'author': author-> {      slug,      name,      image,      nationality->,      biography,      resources[]{         title,         url,         resourceType->{             title,             description,             'icon': {                 'name': icon.name,                 'svg': icon.svg,                 'provider': icon.provider                 }             }         }      }}[0]
 export type StoryBySlugQueryResult = {
@@ -661,7 +733,7 @@ export type AuthorBySlugQueryResult = {
 		hotspot?: SanityImageHotspot;
 		crop?: SanityImageCrop;
 		_type: 'image';
-	} | null;
+	};
 	nationality: {
 		_id: string;
 		_type: 'nationality';
