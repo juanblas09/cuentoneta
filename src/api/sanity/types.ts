@@ -74,24 +74,24 @@ export type Tag = {
 	_createdAt: string;
 	_updatedAt: string;
 	_rev: string;
-	title?: string;
-	slug?: Slug;
-	description?: string;
+	title: string;
+	slug: Slug;
+	description: string;
 	icon?: IconPicker;
 };
 
 export type BlockContent = Array<
 	| {
-			children: Array<{
+			children?: Array<{
 				marks?: Array<string>;
-				text: string;
+				text?: string;
 				_type: 'span';
 				_key: string;
 			}>;
 			style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'blockquote';
 			listItem?: 'bullet';
 			markDefs?: Array<{
-				href: string;
+				href?: string;
 				_type: 'link';
 				_key: string;
 			}>;
@@ -120,11 +120,11 @@ export type Storylist = {
 	_updatedAt: string;
 	_rev: string;
 	title?: string;
-	slug?: Slug;
+	slug: Slug;
 	description?: string;
-	language?: 'es' | 'en';
+	language: 'es' | 'en';
 	displayDates?: boolean;
-	comingNextLabel?: string;
+	comingNextLabel: string;
 	editionPrefix?: string;
 	featuredImage?: {
 		asset?: {
@@ -147,7 +147,7 @@ export type Storylist = {
 	gridConfig?: {
 		gridTemplateColumns?: string;
 		titlePlacement?: {
-			order?: number;
+			order: number;
 			startCol?: string;
 			endCol?: string;
 			startRow?: string;
@@ -161,7 +161,7 @@ export type Storylist = {
 					_weak?: boolean;
 					[internalGroqTypeReferenceTo]?: 'story';
 				};
-				published?: boolean;
+				published: boolean;
 				publishingOrder?: number;
 				publishingDate?: string;
 			};
@@ -177,7 +177,7 @@ export type Storylist = {
 				_type: 'image';
 			};
 			imageSlug?: Slug;
-			order?: number;
+			order: number;
 			startCol?: string;
 			endCol?: string;
 			startRow?: string;
@@ -189,7 +189,7 @@ export type Storylist = {
 	previewGridConfig?: {
 		gridTemplateColumns?: string;
 		titlePlacement?: {
-			order?: number;
+			order: number;
 			startCol?: string;
 			endCol?: string;
 			startRow?: string;
@@ -203,7 +203,7 @@ export type Storylist = {
 					_weak?: boolean;
 					[internalGroqTypeReferenceTo]?: 'story';
 				};
-				published?: boolean;
+				published: boolean;
 				publishingOrder?: number;
 				publishingDate?: string;
 			};
@@ -219,7 +219,7 @@ export type Storylist = {
 				_type: 'image';
 			};
 			imageSlug?: Slug;
-			order?: number;
+			order: number;
 			startCol?: string;
 			endCol?: string;
 			startRow?: string;
@@ -237,10 +237,10 @@ export type Story = {
 	_createdAt: string;
 	_updatedAt: string;
 	_rev: string;
-	title?: string;
-	slug?: Slug;
+	title: string;
+	slug: Slug;
 	language?: 'es' | 'en';
-	author?: {
+	author: {
 		_ref: string;
 		_type: 'reference';
 		_weak?: boolean;
@@ -281,15 +281,15 @@ export type Story = {
 		_type: 'resource';
 		_key: string;
 	}>;
-	badLanguage?: boolean;
-	approximateReadingTime?: number;
-	epigraphs?: Array<{
+	badLanguage: boolean;
+	approximateReadingTime: number;
+	epigraphs: Array<{
 		text?: BlockContent;
 		reference?: string;
 		_type: 'epigraph';
 		_key: string;
 	}>;
-	body?: BlockContent;
+	body: BlockContent;
 	review?: BlockContent;
 	originalPublication?: string;
 };
@@ -300,9 +300,9 @@ export type Author = {
 	_createdAt: string;
 	_updatedAt: string;
 	_rev: string;
-	name?: string;
-	slug?: Slug;
-	image?: {
+	name: string;
+	slug: Slug;
+	image: {
 		asset?: {
 			_ref: string;
 			_type: 'reference';
@@ -313,7 +313,7 @@ export type Author = {
 		crop?: SanityImageCrop;
 		_type: 'image';
 	};
-	nationality?: {
+	nationality: {
 		_ref: string;
 		_type: 'reference';
 		_weak?: boolean;
@@ -343,9 +343,9 @@ export type ResourceType = {
 	_createdAt: string;
 	_updatedAt: string;
 	_rev: string;
-	title?: string;
-	slug?: Slug;
-	description?: string;
+	title: string;
+	slug: Slug;
+	description: string;
 	icon?: IconPicker;
 };
 
@@ -432,9 +432,9 @@ export type LandingPage = {
 	_createdAt: string;
 	_updatedAt: string;
 	_rev: string;
-	config?: string;
-	slug?: Slug;
-	active?: boolean;
+	config: string;
+	slug: Slug;
+	active: boolean;
 	previews?: Array<{
 		_ref: string;
 		_type: 'reference';
@@ -471,109 +471,152 @@ export type ComputedText = string;
 export type ComputedString = string;
 
 export type ComputedBoolean = boolean;
+
+export type AllSanitySchemaTypes =
+	| SanityImagePaletteSwatch
+	| SanityImagePalette
+	| SanityImageDimensions
+	| SanityFileAsset
+	| Geopoint
+	| Tag
+	| BlockContent
+	| Storylist
+	| Story
+	| Author
+	| ResourceType
+	| Nationality
+	| SanityImageCrop
+	| SanityImageHotspot
+	| SanityImageAsset
+	| SanityAssetSourceData
+	| SanityImageMetadata
+	| LandingPage
+	| Slug
+	| IconPicker
+	| ComputedNumber
+	| ComputedText
+	| ComputedString
+	| ComputedBoolean;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ../src/api/_queries/story.query.ts
-// Variable: storiesByAuthorSlugQuery
-// Query: *[_type == 'story' && author->slug.current == $slug][$start...$end]{    'slug': slug.current,    title,    language,    badLanguage,    categories,    body[0...3],    originalPublication,    approximateReadingTime,    mediaSources[]{         _id,        _type,        title,         icon        },    resources[]{         title,         url,         resourceType->{             title,             description,             'icon': {                 'name': icon.name,                 'svg': icon.svg,                 'provider': icon.provider                 }             }         },}|order(title asc)
-export type StoriesByAuthorSlugQueryResult = Array<{
-	slug: string;
-	title: string;
-	language: 'en' | 'es';
-	badLanguage?: boolean;
-	categories: null;
-	body: Array<{
-		children: Array<{
-			marks?: Array<string>;
-			text: string;
-			_type: 'span';
-			_key: string;
-		}>;
-		style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'normal';
-		listItem?: 'bullet';
-		markDefs?: Array<{
-			href: string;
-			_type: 'link';
-			_key: string;
-		}>;
-		level?: number;
-		_type: 'block';
-		_key: string;
-	}>;
-	originalPublication: string;
-	approximateReadingTime: number;
-	mediaSources: Array<
-		| {
-				_id: string;
-				_type: 'audioRecording';
-				title: string;
-				icon: string;
-		  }
-		| {
-				_id: string;
-				_type: 'spaceRecording';
-				title: string;
-				icon: string;
-		  }
-		| {
-				_id: string;
-				_type: 'youTubeVideo';
-				title: string;
-				icon: string;
-		  }
-	>;
+// Source: ../src/api/_queries/author.query.ts
+// Variable: authorBySlugQuery
+// Query: *[_type == 'author' && slug.current == $slug][0]{    slug,    name,    image,    nationality->,    biography,    resources[]{         title,         url,         resourceType->{         	title,         	description,         	'icon': {         		'name': icon.name,         		'svg': icon.svg,         		'provider': icon.provider         		}         	}         }}
+export type AuthorBySlugQueryResult = {
+	slug: Slug;
+	name: string;
+	image: {
+		asset?: {
+			_ref: string;
+			_type: 'reference';
+			_weak?: boolean;
+			[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+		};
+		hotspot?: SanityImageHotspot;
+		crop?: SanityImageCrop;
+		_type: 'image';
+	};
+	nationality: {
+		_id: string;
+		_type: 'nationality';
+		_createdAt: string;
+		_updatedAt: string;
+		_rev: string;
+		country?: string;
+		flag?: {
+			asset?: {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+			};
+			hotspot?: SanityImageHotspot;
+			crop?: SanityImageCrop;
+			_type: 'image';
+		};
+	};
+	biography: {
+		es?: BlockContent;
+		en?: BlockContent;
+	} | null;
 	resources: Array<{
-		title: string;
-		url: string;
+		title: string | null;
+		url: string | null;
 		resourceType: {
 			title: string;
 			description: string;
-			icon:
-				| {
-						name: string;
-						svg: string;
-						provider: string;
-				  }
-				| undefined;
-		};
-	}>;
-}>;
+			icon: {
+				name: string | null;
+				svg: string | null;
+				provider: string | null;
+			};
+		} | null;
+	}> | null;
+} | null;
 
 // Source: ../src/api/_queries/content.query.ts
 // Variable: fetchNewestStoriesQuery
-// Query: *[_type == 'story']{    _createdAt,    'slug': slug.current,    title,    language,    badLanguage,    categories,    body[0...3],    originalPublication,    approximateReadingTime,    mediaSources,    'author': author->{        slug,        name,        image,         nationality->    }}|order(_createdAt desc)[$start...$end]
+// Query: *[_type == 'story']{    _createdAt,    'slug': slug.current,    title,    language,    badLanguage,    categories,    body[0...3],    originalPublication,    approximateReadingTime,    mediaSources[]{         _id,        _type,        title,         icon    },    'author': author->{        slug,        name,        image,         nationality->    }}|order(_createdAt desc)[$start...$end]
 export type FetchNewestStoriesQueryResult = Array<{
 	_createdAt: string;
 	slug: string;
 	title: string;
-	language: 'en' | 'es';
+	language: 'en' | 'es' | null;
 	badLanguage: boolean;
 	categories: null;
-	body: BlockContent;
-	originalPublication: string;
-	approximateReadingTime: number;
-	mediaSources: Array<
+	body: Array<
 		| {
-				postId?: string;
-				title?: string;
-				spaceUrl?: string;
-				duration?: string;
-				_type: 'spaceRecording';
+				children?: Array<{
+					marks?: Array<string>;
+					text?: string;
+					_type: 'span';
+					_key: string;
+				}>;
+				style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'normal';
+				listItem?: 'bullet';
+				markDefs?: Array<{
+					href?: string;
+					_type: 'link';
+					_key: string;
+				}>;
+				level?: number;
+				_type: 'block';
 				_key: string;
 		  }
 		| {
-				title?: string;
-				description?: BlockContent;
-				videoId?: string;
-				_type: 'youTubeVideo';
-				_key: string;
-		  }
-		| {
-				title?: string;
-				url?: string;
-				_type: 'audioRecording';
+				asset?: {
+					_ref: string;
+					_type: 'reference';
+					_weak?: boolean;
+					[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+				};
+				hotspot?: SanityImageHotspot;
+				crop?: SanityImageCrop;
+				_type: 'image';
 				_key: string;
 		  }
 	>;
+	originalPublication: string | null;
+	approximateReadingTime: number;
+	mediaSources: Array<
+		| {
+				_id: null;
+				_type: 'audioRecording';
+				title: string | null;
+				icon: null;
+		  }
+		| {
+				_id: null;
+				_type: 'spaceRecording';
+				title: string | null;
+				icon: null;
+		  }
+		| {
+				_id: null;
+				_type: 'youTubeVideo';
+				title: string | null;
+				icon: null;
+		  }
+	> | null;
 	author: {
 		slug: Slug;
 		name: string;
@@ -609,60 +652,337 @@ export type FetchNewestStoriesQueryResult = Array<{
 		};
 	};
 }>;
+// Variable: fetchLandingPageContentQuery
+// Query: *[_type == 'landingPage'] {    'previews': previews[]-> {         'slug': slug.current,        title,        description,        language,        displayDates,        editionPrefix,        comingNextLabel,        featuredImage,        'tags': tags[] -> {            title,             'slug': slug.current,             description,             'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}        },        'gridConfig': {            'gridTemplateColumns': previewGridConfig.gridTemplateColumns,            'titlePlacement': previewGridConfig.titlePlacement,            'cardsPlacement': previewGridConfig.cardsPlacement[]            {                'order': order,                'slug': publication.story->slug.current,                'startCol': startCol,                'image': image,                'imageSlug': imageSlug.current,                'endCol': endCol,                'startRow': startRow,                'endRow': endRow,                'publication': {                    'publishingOrder': publication.publishingOrder,                    'publishingDate': publication.publishingDate,                    'published': publication.published,                    'story': publication.story->{                        'slug': slug.current,                        title,                        language,                        badLanguage,                        categories,                        body[0...3],                        originalPublication,                        approximateReadingTime,                        mediaSources,                        'author': author->{                            slug,                            name,                            image,                            nationality->                        }                    }                }            }        },        'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])    },    'cards': cards[]-> {         'slug': slug.current,        title,        description,        language,        displayDates,        editionPrefix,        comingNextLabel,        featuredImage,        'tags': tags[] -> {            title,             'slug': slug.current,             description,             'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}        },        'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])    }}[0]
+export type FetchLandingPageContentQueryResult = {
+	previews: Array<{
+		slug: string;
+		title: string | null;
+		description: string | null;
+		language: 'en' | 'es';
+		displayDates: boolean | null;
+		editionPrefix: string | null;
+		comingNextLabel: string;
+		featuredImage: {
+			asset?: {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+			};
+			hotspot?: SanityImageHotspot;
+			crop?: SanityImageCrop;
+			_type: 'image';
+		} | null;
+		tags: Array<{
+			title: string;
+			slug: string;
+			description: string;
+			icon: {
+				name: string | null;
+				provider: string | null;
+				svg: string | null;
+			};
+		}> | null;
+		gridConfig: {
+			gridTemplateColumns: string | null;
+			titlePlacement: {
+				order: number;
+				startCol?: string;
+				endCol?: string;
+				startRow?: string;
+				endRow?: string;
+			} | null;
+			cardsPlacement: Array<{
+				order: number;
+				slug: string | null;
+				startCol: string | null;
+				image: {
+					asset?: {
+						_ref: string;
+						_type: 'reference';
+						_weak?: boolean;
+						[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+					};
+					hotspot?: SanityImageHotspot;
+					crop?: SanityImageCrop;
+					_type: 'image';
+				} | null;
+				imageSlug: string | null;
+				endCol: string | null;
+				startRow: string | null;
+				endRow: string | null;
+				publication: {
+					publishingOrder: number | null;
+					publishingDate: string | null;
+					published: boolean | null;
+					story: {
+						slug: string;
+						title: string;
+						language: 'en' | 'es' | null;
+						badLanguage: boolean;
+						categories: null;
+						body: Array<
+							| {
+									children?: Array<{
+										marks?: Array<string>;
+										text?: string;
+										_type: 'span';
+										_key: string;
+									}>;
+									style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'normal';
+									listItem?: 'bullet';
+									markDefs?: Array<{
+										href?: string;
+										_type: 'link';
+										_key: string;
+									}>;
+									level?: number;
+									_type: 'block';
+									_key: string;
+							  }
+							| {
+									asset?: {
+										_ref: string;
+										_type: 'reference';
+										_weak?: boolean;
+										[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+									};
+									hotspot?: SanityImageHotspot;
+									crop?: SanityImageCrop;
+									_type: 'image';
+									_key: string;
+							  }
+						>;
+						originalPublication: string | null;
+						approximateReadingTime: number;
+						mediaSources: Array<
+							| {
+									title?: string;
+									url?: string;
+									_type: 'audioRecording';
+									_key: string;
+							  }
+							| {
+									postId?: string;
+									title?: string;
+									spaceUrl?: string;
+									duration?: string;
+									_type: 'spaceRecording';
+									_key: string;
+							  }
+							| {
+									title?: string;
+									description?: BlockContent;
+									videoId?: string;
+									_type: 'youTubeVideo';
+									_key: string;
+							  }
+						> | null;
+						author: {
+							slug: Slug;
+							name: string;
+							image: {
+								asset?: {
+									_ref: string;
+									_type: 'reference';
+									_weak?: boolean;
+									[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+								};
+								hotspot?: SanityImageHotspot;
+								crop?: SanityImageCrop;
+								_type: 'image';
+							};
+							nationality: {
+								_id: string;
+								_type: 'nationality';
+								_createdAt: string;
+								_updatedAt: string;
+								_rev: string;
+								country?: string;
+								flag?: {
+									asset?: {
+										_ref: string;
+										_type: 'reference';
+										_weak?: boolean;
+										[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+									};
+									hotspot?: SanityImageHotspot;
+									crop?: SanityImageCrop;
+									_type: 'image';
+								};
+							};
+						};
+					} | null;
+				};
+			}> | null;
+		};
+		count: number;
+	}> | null;
+	cards: Array<{
+		slug: string;
+		title: string | null;
+		description: string | null;
+		language: 'en' | 'es';
+		displayDates: boolean | null;
+		editionPrefix: string | null;
+		comingNextLabel: string;
+		featuredImage: {
+			asset?: {
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+			};
+			hotspot?: SanityImageHotspot;
+			crop?: SanityImageCrop;
+			_type: 'image';
+		} | null;
+		tags: Array<{
+			title: string;
+			slug: string;
+			description: string;
+			icon: {
+				name: string | null;
+				provider: string | null;
+				svg: string | null;
+			};
+		}> | null;
+		count: number;
+	}> | null;
+} | null;
 
+// Source: ../src/api/_queries/story.query.ts
+// Variable: storiesByAuthorSlugQuery
+// Query: *[_type == 'story' && author->slug.current == $slug][$start...$end]{    'slug': slug.current,    title,    language,    badLanguage,    categories,    body[0...3],    originalPublication,    approximateReadingTime,    mediaSources[]{         _id,        _type,        title,         icon    },    resources[]{         title,         url,         resourceType->{             title,             description,             'icon': {                 'name': icon.name,                 'svg': icon.svg,                 'provider': icon.provider                 }             }         },}|order(title asc)
+export type StoriesByAuthorSlugQueryResult = Array<{
+	slug: string;
+	title: string;
+	language: 'en' | 'es' | null;
+	badLanguage: boolean;
+	categories: null;
+	body: Array<
+		| {
+				children?: Array<{
+					marks?: Array<string>;
+					text?: string;
+					_type: 'span';
+					_key: string;
+				}>;
+				style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'normal';
+				listItem?: 'bullet';
+				markDefs?: Array<{
+					href?: string;
+					_type: 'link';
+					_key: string;
+				}>;
+				level?: number;
+				_type: 'block';
+				_key: string;
+		  }
+		| {
+				asset?: {
+					_ref: string;
+					_type: 'reference';
+					_weak?: boolean;
+					[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+				};
+				hotspot?: SanityImageHotspot;
+				crop?: SanityImageCrop;
+				_type: 'image';
+				_key: string;
+		  }
+	>;
+	originalPublication: string | null;
+	approximateReadingTime: number;
+	mediaSources: Array<
+		| {
+				_id: null;
+				_type: 'audioRecording';
+				title: string | null;
+				icon: null;
+		  }
+		| {
+				_id: null;
+				_type: 'spaceRecording';
+				title: string | null;
+				icon: null;
+		  }
+		| {
+				_id: null;
+				_type: 'youTubeVideo';
+				title: string | null;
+				icon: null;
+		  }
+	> | null;
+	resources: Array<{
+		title: string | null;
+		url: string | null;
+		resourceType: {
+			title: string;
+			description: string;
+			icon: {
+				name: string | null;
+				svg: string | null;
+				provider: string | null;
+			};
+		} | null;
+	}> | null;
+}>;
 // Variable: storyBySlugQuery
 // Query: *[_type == 'story' && slug.current == $slug]{  'slug': slug.current,  title,   language,  badLanguage,  epigraphs,  categories,  body,  review,  originalPublication,  approximateReadingTime,  mediaSources,  resources[]{        title,         url,         resourceType->{             title,             description,             'icon': {                'name': icon.name,                 'svg': icon.svg,                 'provider': icon.provider                 }             }   },  'author': author-> {      slug,      name,      image,      nationality->,      biography,      resources[]{         title,         url,         resourceType->{             title,             description,             'icon': {                 'name': icon.name,                 'svg': icon.svg,                 'provider': icon.provider                 }             }         }      }}[0]
 export type StoryBySlugQueryResult = {
 	slug: string;
 	title: string;
-	language: 'en' | 'es';
+	language: 'en' | 'es' | null;
 	badLanguage: boolean;
 	epigraphs: Array<{
-		text: BlockContent;
-		reference: string;
+		text?: BlockContent;
+		reference?: string;
 		_type: 'epigraph';
 		_key: string;
 	}>;
 	categories: null;
 	body: BlockContent;
-	review: BlockContent;
-	originalPublication: string;
+	review: BlockContent | null;
+	originalPublication: string | null;
 	approximateReadingTime: number;
 	mediaSources: Array<
 		| {
-				_id: string;
+				title?: string;
+				url?: string;
 				_type: 'audioRecording';
-				title: string;
-				icon: string;
+				_key: string;
 		  }
 		| {
-				_id: string;
+				postId?: string;
+				title?: string;
+				spaceUrl?: string;
+				duration?: string;
 				_type: 'spaceRecording';
-				title: string;
-				icon: string;
+				_key: string;
 		  }
 		| {
-				_id: string;
+				title?: string;
+				description?: BlockContent;
+				videoId?: string;
 				_type: 'youTubeVideo';
-				title: string;
-				icon: string;
+				_key: string;
 		  }
-	>;
+	> | null;
 	resources: Array<{
-		title: string;
-		url: string;
+		title: string | null;
+		url: string | null;
 		resourceType: {
 			title: string;
 			description: string;
-			icon:
-				| {
-						name: string;
-						svg: string;
-						provider: string;
-				  }
-				| undefined;
-		};
-	}>;
+			icon: {
+				name: string | null;
+				svg: string | null;
+				provider: string | null;
+			};
+		} | null;
+	}> | null;
 	author: {
 		slug: Slug;
 		name: string;
@@ -683,8 +1003,8 @@ export type StoryBySlugQueryResult = {
 			_createdAt: string;
 			_updatedAt: string;
 			_rev: string;
-			country: string;
-			flag: {
+			country?: string;
+			flag?: {
 				asset?: {
 					_ref: string;
 					_type: 'reference';
@@ -696,365 +1016,36 @@ export type StoryBySlugQueryResult = {
 				_type: 'image';
 			};
 		};
-		biography?: {
-			es: BlockContent;
-			en: BlockContent;
-			[language: string]: BlockContent;
-		};
+		biography: {
+			es?: BlockContent;
+			en?: BlockContent;
+		} | null;
 		resources: Array<{
-			title: string;
-			url: string;
+			title: string | null;
+			url: string | null;
 			resourceType: {
 				title: string;
 				description: string;
 				icon: {
-					name: string;
-					svg: string;
-					provider: string;
+					name: string | null;
+					svg: string | null;
+					provider: string | null;
 				};
-			};
-		}>;
+			} | null;
+		}> | null;
 	};
-};
-
-// Source: ../src/api/_queries/author.query.ts
-// Variable: authorBySlugQuery
-// Query: *[_type == 'author' && slug.current == $slug][0]{    slug,    name,    image,    nationality->,    biography,    resources[]{         title,         url,         resourceType->{         	title,         	description,         	'icon': {         		'name': icon.name,         		'svg': icon.svg,         		'provider': icon.provider         		}         	}         }}
-export type AuthorBySlugQueryResult = {
-	slug: Slug;
-	name: string;
-	image: {
-		asset?: {
-			_ref: string;
-			_type: 'reference';
-			_weak?: boolean;
-			[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-		};
-		hotspot?: SanityImageHotspot;
-		crop?: SanityImageCrop;
-		_type: 'image';
-	};
-	nationality: {
-		_id: string;
-		_type: 'nationality';
-		_createdAt: string;
-		_updatedAt: string;
-		_rev: string;
-		country: string;
-		flag: {
-			asset?: {
-				_ref: string;
-				_type: 'reference';
-				_weak?: boolean;
-				[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-			};
-			hotspot?: SanityImageHotspot;
-			crop?: SanityImageCrop;
-			_type: 'image';
-		};
-	};
-	biography?: {
-		es: BlockContent;
-		en: BlockContent;
-		[language: string]: BlockContent;
-	};
-	resources?: Array<{
-		title: string;
-		url: string;
-		resourceType: {
-			title: string;
-			description: string;
-			icon: {
-				name: string;
-				svg: string;
-				provider: string;
-			};
-		};
-	}>;
-};
-
-// Source: ../src/api/_queries/content.query.ts
-// Variable: fetchLandingPageContentQuery
-// Query: *[_type == 'landingPage'] {    'previews': previews[]-> {         'slug': slug.current,        title,        description,        language,        displayDates,        editionPrefix,        comingNextLabel,        featuredImage,        'tags': tags[] -> {            title,             'slug': slug.current,             description,             'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}        },        'gridConfig': {            'gridTemplateColumns': previewGridConfig.gridTemplateColumns,            'titlePlacement': previewGridConfig.titlePlacement,            'cardsPlacement': previewGridConfig.cardsPlacement[]            {                'order': order,                'slug': publication.story->slug.current,                'startCol': startCol,                'image': image,                'imageSlug': imageSlug.current,                'endCol': endCol,                'startRow': startRow,                'endRow': endRow,                'publication': {                    'publishingOrder': publication.publishingOrder,                    'publishingDate': publication.publishingDate,                    'published': publication.published,                    'story': publication.story->{                        'slug': slug.current,                        title,                        language,                        badLanguage,                        categories,                        body[0...3],                        originalPublication,                        approximateReadingTime,                        mediaSources,                        'author': author->{                            slug,                            name,                            image,                            nationality->                        }                    }                }            }        },        'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])    },    'cards': cards[]-> {         'slug': slug.current,        title,        description,        language,        displayDates,        editionPrefix,        comingNextLabel,        featuredImage,        'tags': tags[] -> {            title,             'slug': slug.current,             description,             'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}        },        'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])    }}[0]
-export type FetchLandingPageContentQueryResult = {
-	previews: Array<{
-		slug: string;
-		title: string;
-		description: string[];
-		language: 'en' | 'es';
-		displayDates: boolean;
-		editionPrefix: string;
-		comingNextLabel: string;
-		featuredImage: {
-			asset?: {
-				_ref: string;
-				_type: 'reference';
-				_weak?: boolean;
-				[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-			};
-			hotspot?: SanityImageHotspot;
-			crop?: SanityImageCrop;
-			_type: 'image';
-		};
-		tags: Array<{
-			title: string;
-			slug: string;
-			description: string;
-			icon: {
-				name: string;
-				provider: string;
-				svg: string;
-			};
-		}>;
-		gridConfig: {
-			gridTemplateColumns: string;
-			titlePlacement: {
-				order: number;
-				startCol?: string;
-				endCol?: string;
-				startRow?: string;
-				endRow?: string;
-			};
-			cardsPlacement: Array<{
-				order: number;
-				slug: string;
-				startCol: string;
-				image: {
-					asset?: {
-						_ref: string;
-						_type: 'reference';
-						_weak?: boolean;
-						[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-					};
-					hotspot?: SanityImageHotspot;
-					crop?: SanityImageCrop;
-					_type: 'image';
-				};
-				imageSlug: string;
-				endCol: string;
-				startRow: string;
-				endRow: string;
-				publication: {
-					publishingOrder: number;
-					publishingDate: string;
-					published: boolean;
-					editionPrefix: string;
-					comingNextLabel: string;
-					editionLabel: string;
-					story: {
-						slug: string;
-						title: string;
-						language: 'en' | 'es';
-						badLanguage: boolean | undefined;
-						categories: null;
-						body: BlockContent;
-						originalPublication: string;
-						approximateReadingTime: number;
-						mediaSources: Array<
-							| {
-									_id: string;
-									_type: 'audioRecording';
-									title: string;
-									icon: string;
-							  }
-							| {
-									_id: string;
-									_type: 'spaceRecording';
-									title: string;
-									icon: string;
-							  }
-							| {
-									_id: string;
-									_type: 'youTubeVideo';
-									title: string;
-									icon: string;
-							  }
-						>;
-						author: {
-							slug: Slug;
-							name: string;
-							image: {
-								asset?: {
-									_ref: string;
-									_type: 'reference';
-									_weak?: boolean;
-									[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-								};
-								hotspot?: SanityImageHotspot;
-								crop?: SanityImageCrop;
-								_type: 'image';
-							};
-							nationality: {
-								_id: string;
-								_type: 'nationality';
-								_createdAt: string;
-								_updatedAt: string;
-								_rev: string;
-								country: string;
-								flag: {
-									asset?: {
-										_ref: string;
-										_type: 'reference';
-										_weak?: boolean;
-										[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-									};
-									hotspot?: SanityImageHotspot;
-									crop?: SanityImageCrop;
-									_type: 'image';
-								};
-							};
-						};
-					};
-				};
-			}>;
-		};
-		count: number;
-	}>;
-	cards: Array<{
-		slug: string;
-		title: string;
-		description: string[];
-		language: 'en' | 'es';
-		displayDates: boolean;
-		editionPrefix: string;
-		comingNextLabel: string;
-		featuredImage: {
-			asset?: {
-				_ref: string;
-				_type: 'reference';
-				_weak?: boolean;
-				[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-			};
-			hotspot?: SanityImageHotspot;
-			crop?: SanityImageCrop;
-			_type: 'image';
-		};
-		tags: Array<{
-			title: string;
-			slug: string;
-			description: string;
-			icon: {
-				name: string;
-				provider: string;
-				svg: string;
-			};
-		}>;
-		gridConfig: {
-			gridTemplateColumns: string;
-			titlePlacement: {
-				order: number;
-				startCol?: string;
-				endCol?: string;
-				startRow?: string;
-				endRow?: string;
-			};
-			cardsPlacement: Array<{
-				order: number;
-				slug: string;
-				startCol: string;
-				image: {
-					asset?: {
-						_ref: string;
-						_type: 'reference';
-						_weak?: boolean;
-						[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-					};
-					hotspot?: SanityImageHotspot;
-					crop?: SanityImageCrop;
-					_type: 'image';
-				};
-				imageSlug: string;
-				endCol: string;
-				startRow: string;
-				endRow: string;
-				publication: {
-					publishingOrder: number;
-					publishingDate: string;
-					published: boolean;
-					editionPrefix: string;
-					comingNextLabel: string;
-					editionLabel: string;
-					story: {
-						slug: string;
-						title: string;
-						language: 'en' | 'es';
-						badLanguage: boolean | undefined;
-						categories: null;
-						body: BlockContent;
-						originalPublication: string;
-						approximateReadingTime: number;
-						mediaSources: Array<
-							| {
-									_id: string;
-									_type: 'audioRecording';
-									title: string;
-									icon: string;
-							  }
-							| {
-									_id: string;
-									_type: 'spaceRecording';
-									title: string;
-									icon: string;
-							  }
-							| {
-									_id: string;
-									_type: 'youTubeVideo';
-									title: string;
-									icon: string;
-							  }
-						>;
-						author: {
-							slug: Slug;
-							name: string;
-							image: {
-								asset?: {
-									_ref: string;
-									_type: 'reference';
-									_weak?: boolean;
-									[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-								};
-								hotspot?: SanityImageHotspot;
-								crop?: SanityImageCrop;
-								_type: 'image';
-							};
-							nationality: {
-								_id: string;
-								_type: 'nationality';
-								_createdAt: string;
-								_updatedAt: string;
-								_rev: string;
-								country: string;
-								flag: {
-									asset?: {
-										_ref: string;
-										_type: 'reference';
-										_weak?: boolean;
-										[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-									};
-									hotspot?: SanityImageHotspot;
-									crop?: SanityImageCrop;
-									_type: 'image';
-								};
-							};
-						};
-					};
-				};
-			}>;
-		};
-		count: number;
-	}>;
-};
+} | null;
 
 // Source: ../src/api/_queries/storylist.query.ts
 // Variable: storylistPreviewQuery
-// Query: *[_type == 'storylist' && slug.current == $slug][0]{     'slug': slug.current,    title,    description,    language,    displayDates,    editionPrefix,    comingNextLabel,    featuredImage,    'tags': tags[] -> {        title,         'slug': slug.current,         description,         'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}    },    'gridConfig': {     'gridTemplateColumns': previewGridConfig.gridTemplateColumns,    'titlePlacement': previewGridConfig.titlePlacement,    'cardsPlacement': previewGridConfig.cardsPlacement[]        {            'order': order,            'slug': publication.story->slug.current,            'startCol': startCol,            'image': image,            'imageSlug': imageSlug.current,            'endCol': endCol,            'startRow': startRow,            'endRow': endRow,            'publication': {                'publishingOrder': publication.publishingOrder,                'publishingDate': publication.publishingDate,                'published': publication.published,                'story': publication.story->{                    'slug': slug.current,                    title,                    language,                    badLanguage,                    categories,                    body[0...3],                    originalPublication,                    approximateReadingTime,                    mediaSources,                	'author': author->{                        slug,                        name,                        image,                        nationality->                    }                }            }        }    },    'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])    }
+// Query: *[_type == 'storylist' && slug.current == $slug][0]{     'slug': slug.current,    title,    description,    language,    displayDates,    editionPrefix,    comingNextLabel,    featuredImage,    'tags': tags[] -> {        title,         'slug': slug.current,         description,         'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}    },    'gridConfig': {     'gridTemplateColumns': previewGridConfig.gridTemplateColumns,    'titlePlacement': previewGridConfig.titlePlacement,    'cardsPlacement': previewGridConfig.cardsPlacement[]        {            'order': order,            'slug': publication.story->slug.current,            'startCol': startCol,            'image': image,            'imageSlug': imageSlug.current,            'endCol': endCol,            'startRow': startRow,            'endRow': endRow,            'publication': {                'publishingOrder': publication.publishingOrder,                'publishingDate': publication.publishingDate,                'published': publication.published,                'story': publication.story->{                    'slug': slug.current,                    title,                    language,                    badLanguage,                    categories,                    body[0...3],                    originalPublication,                    approximateReadingTime,                    mediaSources[]{                         _id,                        _type,                        title,                         icon                    },                	'author': author->{                        slug,                        name,                        image,                        nationality->                    }                }            }        }    },    'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])    }
 export type StorylistPreviewQueryResult = {
 	slug: string;
-	title: string;
-	description: string[];
+	title: string | null;
+	description: string | null;
 	language: 'en' | 'es';
-	displayDates: boolean;
-	editionPrefix: string;
+	displayDates: boolean | null;
+	editionPrefix: string | null;
 	comingNextLabel: string;
 	featuredImage: {
 		asset?: {
@@ -1066,30 +1057,30 @@ export type StorylistPreviewQueryResult = {
 		hotspot?: SanityImageHotspot;
 		crop?: SanityImageCrop;
 		_type: 'image';
-	};
+	} | null;
 	tags: Array<{
 		title: string;
 		slug: string;
 		description: string;
 		icon: {
-			name: string;
-			provider: string;
-			svg: string;
+			name: string | null;
+			provider: string | null;
+			svg: string | null;
 		};
-	}>;
+	}> | null;
 	gridConfig: {
-		gridTemplateColumns: string;
+		gridTemplateColumns: string | null;
 		titlePlacement: {
 			order: number;
 			startCol?: string;
 			endCol?: string;
 			startRow?: string;
 			endRow?: string;
-		};
+		} | null;
 		cardsPlacement: Array<{
 			order: number;
-			slug: string;
-			startCol: string;
+			slug: string | null;
+			startCol: string | null;
 			image: {
 				asset?: {
 					_ref: string;
@@ -1100,47 +1091,75 @@ export type StorylistPreviewQueryResult = {
 				hotspot?: SanityImageHotspot;
 				crop?: SanityImageCrop;
 				_type: 'image';
-			};
-			imageSlug: string;
-			endCol: string;
-			startRow: string;
-			endRow: string;
+			} | null;
+			imageSlug: string | null;
+			endCol: string | null;
+			startRow: string | null;
+			endRow: string | null;
 			publication: {
-				publishingOrder: number;
-				publishingDate: string;
-				published: boolean;
-				editionPrefix: string;
-				comingNextLabel: string;
-				editionLabel: string;
+				publishingOrder: number | null;
+				publishingDate: string | null;
+				published: boolean | null;
 				story: {
 					slug: string;
 					title: string;
-					language: 'en' | 'es';
-					badLanguage: boolean | undefined;
+					language: 'en' | 'es' | null;
+					badLanguage: boolean;
 					categories: null;
-					body: BlockContent;
-					originalPublication: string;
+					body: Array<
+						| {
+								children?: Array<{
+									marks?: Array<string>;
+									text?: string;
+									_type: 'span';
+									_key: string;
+								}>;
+								style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'normal';
+								listItem?: 'bullet';
+								markDefs?: Array<{
+									href?: string;
+									_type: 'link';
+									_key: string;
+								}>;
+								level?: number;
+								_type: 'block';
+								_key: string;
+						  }
+						| {
+								asset?: {
+									_ref: string;
+									_type: 'reference';
+									_weak?: boolean;
+									[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+								};
+								hotspot?: SanityImageHotspot;
+								crop?: SanityImageCrop;
+								_type: 'image';
+								_key: string;
+						  }
+					>;
+					originalPublication: string | null;
 					approximateReadingTime: number;
 					mediaSources: Array<
 						| {
-								_id: string;
+								_id: null;
 								_type: 'audioRecording';
-								title: string;
-								icon: string;
+								title: string | null;
+								icon: null;
 						  }
 						| {
-								_id: string;
+								_id: null;
 								_type: 'spaceRecording';
-								title: string;
-								icon: string;
+								title: string | null;
+								icon: null;
 						  }
 						| {
-								_id: string;
+								_id: null;
 								_type: 'youTubeVideo';
-								title: string;
-								icon: string;
+								title: string | null;
+								icon: null;
 						  }
-					>;
+					> | null;
 					author: {
 						slug: Slug;
 						name: string;
@@ -1161,8 +1180,8 @@ export type StorylistPreviewQueryResult = {
 							_createdAt: string;
 							_updatedAt: string;
 							_rev: string;
-							country: string;
-							flag: {
+							country?: string;
+							flag?: {
 								asset?: {
 									_ref: string;
 									_type: 'reference';
@@ -1175,22 +1194,21 @@ export type StorylistPreviewQueryResult = {
 							};
 						};
 					};
-				};
+				} | null;
 			};
-		}>;
+		}> | null;
 	};
 	count: number;
-};
-
+} | null;
 // Variable: storylistQuery
-// Query: *[_type == 'storylist' && slug.current == $slug][0]{     'slug': slug.current,    title,    description,    language,    displayDates,    editionPrefix,    comingNextLabel,    featuredImage,    'tags': tags[] -> {        title,         'slug': slug.current,         description,         'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}    },    'gridConfig': {         'gridTemplateColumns': gridConfig.gridTemplateColumns,        'titlePlacement': gridConfig.titlePlacement,        'cardsPlacement': gridConfig.cardsPlacement[]        {            'order': order,            'slug': publication.story->slug.current,            'startCol': startCol,            'image': image,            'imageSlug': imageSlug.current,            'endCol': endCol,            'startRow': startRow,            'endRow': endRow,            'publication': {                'publishingOrder': publication.publishingOrder,                'publishingDate': publication.publishingDate,                'published': publication.published,                'story': publication.story->{                    'slug': slug.current,                    title,                    language,                    badLanguage,                    categories,                    body[0...3],                    originalPublication,                    approximateReadingTime,                    mediaSources,                	'author': author-> { slug, name, image, nationality-> }                }            }        }    },    'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])}
+// Query: *[_type == 'storylist' && slug.current == $slug][0]{     'slug': slug.current,    title,    description,    language,    displayDates,    editionPrefix,    comingNextLabel,    featuredImage,    'tags': tags[] -> {        title,         'slug': slug.current,         description,         'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}    },    'gridConfig': {         'gridTemplateColumns': gridConfig.gridTemplateColumns,        'titlePlacement': gridConfig.titlePlacement,        'cardsPlacement': gridConfig.cardsPlacement[]        {            'order': order,            'slug': publication.story->slug.current,            'startCol': startCol,            'image': image,            'imageSlug': imageSlug.current,            'endCol': endCol,            'startRow': startRow,            'endRow': endRow,            'publication': {                'publishingOrder': publication.publishingOrder,                'publishingDate': publication.publishingDate,                'published': publication.published,                'editionPrefix': publication.editionPrefix,                'comingNextLabel': publication.comingNextLabel,                'story': publication.story->{                    'slug': slug.current,                    title,                    language,                    badLanguage,                    categories,                    body[0...3],                    originalPublication,                    approximateReadingTime,                    mediaSources,                	'author': author-> { slug, name, image, nationality-> }                }            }        }    },    'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])    }
 export type StorylistQueryResult = {
 	slug: string;
-	title: string;
-	description: string[];
+	title: string | null;
+	description: string | null;
 	language: 'en' | 'es';
-	displayDates: boolean;
-	editionPrefix: string;
+	displayDates: boolean | null;
+	editionPrefix: string | null;
 	comingNextLabel: string;
 	featuredImage: {
 		asset?: {
@@ -1202,30 +1220,30 @@ export type StorylistQueryResult = {
 		hotspot?: SanityImageHotspot;
 		crop?: SanityImageCrop;
 		_type: 'image';
-	};
+	} | null;
 	tags: Array<{
 		title: string;
 		slug: string;
 		description: string;
 		icon: {
-			name: string;
-			provider: string;
-			svg: string;
+			name: string | null;
+			provider: string | null;
+			svg: string | null;
 		};
-	}>;
+	}> | null;
 	gridConfig: {
-		gridTemplateColumns: string;
+		gridTemplateColumns: string | null;
 		titlePlacement: {
 			order: number;
 			startCol?: string;
 			endCol?: string;
 			startRow?: string;
 			endRow?: string;
-		};
+		} | null;
 		cardsPlacement: Array<{
 			order: number;
-			slug: string;
-			startCol: string;
+			slug: string | null;
+			startCol: string | null;
 			image: {
 				asset?: {
 					_ref: string;
@@ -1236,47 +1254,80 @@ export type StorylistQueryResult = {
 				hotspot?: SanityImageHotspot;
 				crop?: SanityImageCrop;
 				_type: 'image';
-			};
-			imageSlug: string;
-			endCol: string;
-			startRow: string;
-			endRow: string;
+			} | null;
+			imageSlug: string | null;
+			endCol: string | null;
+			startRow: string | null;
+			endRow: string | null;
 			publication: {
-				publishingOrder: number;
-				publishingDate: string;
-				published: boolean;
-				editionPrefix: string;
-				comingNextLabel: string;
-				editionLabel: string;
+				publishingOrder: number | null;
+				publishingDate: string | null;
+				published: boolean | null;
+				editionPrefix: null;
+				comingNextLabel: null;
 				story: {
 					slug: string;
 					title: string;
-					language: 'en' | 'es';
-					badLanguage: boolean | undefined;
+					language: 'en' | 'es' | null;
+					badLanguage: boolean;
 					categories: null;
-					body: BlockContent;
-					originalPublication: string;
+					body: Array<
+						| {
+								children?: Array<{
+									marks?: Array<string>;
+									text?: string;
+									_type: 'span';
+									_key: string;
+								}>;
+								style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'normal';
+								listItem?: 'bullet';
+								markDefs?: Array<{
+									href?: string;
+									_type: 'link';
+									_key: string;
+								}>;
+								level?: number;
+								_type: 'block';
+								_key: string;
+						  }
+						| {
+								asset?: {
+									_ref: string;
+									_type: 'reference';
+									_weak?: boolean;
+									[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+								};
+								hotspot?: SanityImageHotspot;
+								crop?: SanityImageCrop;
+								_type: 'image';
+								_key: string;
+						  }
+					>;
+					originalPublication: string | null;
 					approximateReadingTime: number;
 					mediaSources: Array<
 						| {
-								_id: string;
+								title?: string;
+								url?: string;
 								_type: 'audioRecording';
-								title: string;
-								icon: string;
+								_key: string;
 						  }
 						| {
-								_id: string;
+								postId?: string;
+								title?: string;
+								spaceUrl?: string;
+								duration?: string;
 								_type: 'spaceRecording';
-								title: string;
-								icon: string;
+								_key: string;
 						  }
 						| {
-								_id: string;
+								title?: string;
+								description?: BlockContent;
+								videoId?: string;
 								_type: 'youTubeVideo';
-								title: string;
-								icon: string;
+								_key: string;
 						  }
-					>;
+					> | null;
 					author: {
 						slug: Slug;
 						name: string;
@@ -1297,8 +1348,8 @@ export type StorylistQueryResult = {
 							_createdAt: string;
 							_updatedAt: string;
 							_rev: string;
-							country: string;
-							flag: {
+							country?: string;
+							flag?: {
 								asset?: {
 									_ref: string;
 									_type: 'reference';
@@ -1311,9 +1362,23 @@ export type StorylistQueryResult = {
 							};
 						};
 					};
-				};
+				} | null;
 			};
-		}>;
+		}> | null;
 	};
 	count: number;
-};
+} | null;
+
+// Query TypeMap
+import '@sanity/client';
+declare module '@sanity/client' {
+	interface SanityQueries {
+		"*[_type == 'author' && slug.current == $slug][0]\n{\n    slug,\n    name,\n    image,\n    nationality->,\n    biography,\n    resources[]{ \n        title, \n        url, \n        resourceType->{ \n        \ttitle, \n        \tdescription, \n        \t'icon': { \n        \t\t'name': icon.name, \n        \t\t'svg': icon.svg, \n        \t\t'provider': icon.provider \n        \t\t} \n        \t} \n        }\n}": AuthorBySlugQueryResult;
+		"*[_type == 'story']\n{\n    _createdAt,\n    'slug': slug.current,\n    title,\n    language,\n    badLanguage,\n    categories,\n    body[0...3],\n    originalPublication,\n    approximateReadingTime,\n    mediaSources[]{ \n        _id,\n        _type,\n        title, \n        icon\n    },\n    'author': author->{\n        slug,\n        name,\n        image,\n         nationality->\n    }\n}|order(_createdAt desc)[$start...$end]": FetchNewestStoriesQueryResult;
+		"*[_type == 'landingPage'] \n{\n    'previews': previews[]-> { \n        'slug': slug.current,\n        title,\n        description,\n        language,\n        displayDates,\n        editionPrefix,\n        comingNextLabel,\n        featuredImage,\n        'tags': tags[] -> {\n            title, \n            'slug': slug.current, \n            description, \n            'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}\n        },\n        'gridConfig': {\n            'gridTemplateColumns': previewGridConfig.gridTemplateColumns,\n            'titlePlacement': previewGridConfig.titlePlacement,\n            'cardsPlacement': previewGridConfig.cardsPlacement[]\n            {\n                'order': order,\n                'slug': publication.story->slug.current,\n                'startCol': startCol,\n                'image': image,\n                'imageSlug': imageSlug.current,\n                'endCol': endCol,\n                'startRow': startRow,\n                'endRow': endRow,\n                'publication': {\n                    'publishingOrder': publication.publishingOrder,\n                    'publishingDate': publication.publishingDate,\n                    'published': publication.published,\n                    'story': publication.story->{\n                        'slug': slug.current,\n                        title,\n                        language,\n                        badLanguage,\n                        categories,\n                        body[0...3],\n                        originalPublication,\n                        approximateReadingTime,\n                        mediaSources,\n                        'author': author->{\n                            slug,\n                            name,\n                            image,\n                            nationality->\n                        }\n                    }\n                }\n            }\n        },\n        'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])\n    },\n    'cards': cards[]-> { \n        'slug': slug.current,\n        title,\n        description,\n        language,\n        displayDates,\n        editionPrefix,\n        comingNextLabel,\n        featuredImage,\n        'tags': tags[] -> {\n            title, \n            'slug': slug.current, \n            description, \n            'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}\n        },\n        'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])\n    }\n}[0]": FetchLandingPageContentQueryResult;
+		"*[_type == 'story' && author->slug.current == $slug][$start...$end]\n{\n    'slug': slug.current,\n    title,\n    language,\n    badLanguage,\n    categories,\n    body[0...3],\n    originalPublication,\n    approximateReadingTime,\n    mediaSources[]{ \n        _id,\n        _type,\n        title, \n        icon\n    },\n    resources[]{ \n        title, \n        url, \n        resourceType->{ \n            title, \n            description, \n            'icon': { \n                'name': icon.name, \n                'svg': icon.svg, \n                'provider': icon.provider \n                } \n            } \n        },\n}|order(title asc)": StoriesByAuthorSlugQueryResult;
+		"*[_type == 'story' && slug.current == $slug]\n{\n  'slug': slug.current,\n  title, \n  language,\n  badLanguage,\n  epigraphs,\n  categories,\n  body,\n  review,\n  originalPublication,\n  approximateReadingTime,\n  mediaSources,\n  resources[]{\n        title, \n        url, \n        resourceType->{ \n            title, \n            description, \n            'icon': {\n                'name': icon.name, \n                'svg': icon.svg, \n                'provider': icon.provider \n                } \n            } \n  },\n  'author': author-> {\n      slug,\n      name,\n      image,\n      nationality->,\n      biography,\n      resources[]{ \n        title, \n        url, \n        resourceType->{ \n            title, \n            description, \n            'icon': { \n                'name': icon.name, \n                'svg': icon.svg, \n                'provider': icon.provider \n                } \n            } \n        }\n      }\n}[0]": StoryBySlugQueryResult;
+		"*[_type == 'storylist' && slug.current == $slug][0]\n{ \n    'slug': slug.current,\n    title,\n    description,\n    language,\n    displayDates,\n    editionPrefix,\n    comingNextLabel,\n    featuredImage,\n    'tags': tags[] -> {\n        title, \n        'slug': slug.current, \n        description, \n        'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}\n    },\n    'gridConfig': { \n    'gridTemplateColumns': previewGridConfig.gridTemplateColumns,\n    'titlePlacement': previewGridConfig.titlePlacement,\n    'cardsPlacement': previewGridConfig.cardsPlacement[]\n        {\n            'order': order,\n            'slug': publication.story->slug.current,\n            'startCol': startCol,\n            'image': image,\n            'imageSlug': imageSlug.current,\n            'endCol': endCol,\n            'startRow': startRow,\n            'endRow': endRow,\n            'publication': {\n                'publishingOrder': publication.publishingOrder,\n                'publishingDate': publication.publishingDate,\n                'published': publication.published,\n                'story': publication.story->{\n                    'slug': slug.current,\n                    title,\n                    language,\n                    badLanguage,\n                    categories,\n                    body[0...3],\n                    originalPublication,\n                    approximateReadingTime,\n                    mediaSources[]{ \n                        _id,\n                        _type,\n                        title, \n                        icon\n                    },\n                \t'author': author->{\n                        slug,\n                        name,\n                        image,\n                        nationality->\n                    }\n                }\n            }\n        }\n    },\n    'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])\n    }\n": StorylistPreviewQueryResult;
+		"*[_type == 'storylist' && slug.current == $slug][0]\n{ \n    'slug': slug.current,\n    title,\n    description,\n    language,\n    displayDates,\n    editionPrefix,\n    comingNextLabel,\n    featuredImage,\n    'tags': tags[] -> {\n        title, \n        'slug': slug.current, \n        description, \n        'icon': {'name': icon.name, 'provider': icon.provider, 'svg': icon.svg}\n    },\n    'gridConfig': { \n        'gridTemplateColumns': gridConfig.gridTemplateColumns,\n        'titlePlacement': gridConfig.titlePlacement,\n        'cardsPlacement': gridConfig.cardsPlacement[]\n        {\n            'order': order,\n            'slug': publication.story->slug.current,\n            'startCol': startCol,\n            'image': image,\n            'imageSlug': imageSlug.current,\n            'endCol': endCol,\n            'startRow': startRow,\n            'endRow': endRow,\n            'publication': {\n                'publishingOrder': publication.publishingOrder,\n                'publishingDate': publication.publishingDate,\n                'published': publication.published,\n                'editionPrefix': publication.editionPrefix,\n                'comingNextLabel': publication.comingNextLabel,\n                'story': publication.story->{\n                    'slug': slug.current,\n                    title,\n                    language,\n                    badLanguage,\n                    categories,\n                    body[0...3],\n                    originalPublication,\n                    approximateReadingTime,\n                    mediaSources,\n                \t'author': author-> { slug, name, image, nationality-> }\n                }\n            }\n        }\n    },\n    'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])\n    }\n": StorylistQueryResult;
+	}
+}

@@ -11,7 +11,12 @@ export const fetchNewestStoriesQuery = groq`*[_type == 'story']
     body[0...3],
     originalPublication,
     approximateReadingTime,
-    mediaSources,
+    mediaSources[]{ 
+        _id,
+        _type,
+        title, 
+        icon
+    },
     'author': author->{
         slug,
         name,
