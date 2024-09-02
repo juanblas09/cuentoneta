@@ -15,7 +15,7 @@ export const storiesByAuthorSlugQuery = groq`*[_type == 'story' && author->slug.
         _type,
         title, 
         icon
-        },
+    },
     resources[]{ 
         title, 
         url, 

@@ -1,7 +1,7 @@
 import { supportedLanguages } from '../utils/localization';
 import { DocumentTextIcon, DocumentVideoIcon, PlayIcon, TwitterIcon } from '@sanity/icons';
 import { resource } from './resourceType';
-import { defineField, defineType } from 'sanity';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 const audioRecording = defineField({
 	name: 'audioRecording',
@@ -159,18 +159,19 @@ export default defineType({
 			name: 'mediaSources',
 			title: 'Información de recursos multimedia asociados a la historia en otras plataformas web',
 			type: 'array',
-			of: [audioRecording, spaceRecording, youtubeVideo],
+			of: [defineArrayMember(audioRecording), defineArrayMember(spaceRecording), defineArrayMember(youtubeVideo)],
 		}),
 		defineField({
 			name: 'resources',
 			title: 'Recursos web asociados a la story y su contenido',
 			type: 'array',
-			of: [resource],
+			of: [defineArrayMember(resource)],
 		}),
 		defineField({
 			name: 'badLanguage',
 			title: '¿Contiene lenguaje adulto?',
 			type: 'boolean',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'approximateReadingTime',
@@ -198,13 +199,15 @@ export default defineType({
 					return Math.ceil(wordCount / 200);
 				},
 			},
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'epigraphs',
 			title: 'Epígrafes',
 			type: 'array',
+			validation: (Rule) => Rule.required(),
 			of: [
-				{
+				defineArrayMember({
 					name: 'epigraph',
 					title: 'Epígrafe',
 					type: 'object',
@@ -221,7 +224,7 @@ export default defineType({
 							type: 'string',
 						},
 					],
-				},
+				}),
 			],
 		}),
 		defineField({
