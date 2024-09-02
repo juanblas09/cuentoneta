@@ -9,9 +9,10 @@ import { AppRoutes } from '../../app.routes';
 
 // Services
 import { ContentService } from '../../providers/content.service';
+import { ThemeService } from '../../providers/theme.service';
 
 // Models
-import { ContentCampaign, StorylistCardDeck } from '@models/content.model';
+import { Storylist, StorylistTeaser } from '@models/storylist.model';
 
 // Directives
 import { FetchContentDirective } from '../../directives/fetch-content.directive';
@@ -22,9 +23,7 @@ import { PublicationCardComponent } from '../../components/publication-card/publ
 import { StorylistCardDeckComponent } from 'src/app/components/storylist-card-deck/storylist-card-deck.component';
 import { StorylistCardComponent } from '../../components/storylist-card-component/storylist-card.component';
 import { CarouselComponent } from '../../components/carousel/carousel.component';
-import { delay, Observable, of } from 'rxjs';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { ThemeService } from '../../providers/theme.service';
 
 @Component({
 	selector: 'cuentoneta-home',
@@ -43,28 +42,23 @@ import { ThemeService } from '../../providers/theme.service';
 	hostDirectives: [FetchContentDirective, MetaTagsDirective],
 })
 export class HomeComponent {
-	// Directives
-	public fetchContentDirective = inject(FetchContentDirective);
-	private metaTagsDirective = inject(MetaTagsDirective);
+	readonly appRoutes = AppRoutes;
 
 	// Services
 	private contentService = inject(ContentService);
-
-	readonly appRoutes = AppRoutes;
-
-	// Copy the elements from $slides and adapt to the new type
-	readonly slides$ = this.contentService.getContentCampaigns$();
-
-	cards: StorylistCardDeck[] = [];
-	previews: StorylistCardDeck[] = [];
-
 	private themeService = inject(ThemeService);
+
+	// Directives
+	private fetchContentDirective = inject(FetchContentDirective);
+	private metaTagsDirective = inject(MetaTagsDirective);
+
+	cards: StorylistTeaser[] = [];
+	slides$ = this.contentService.getContentCampaigns$();
 	skeletonColor = this.themeService.pickColor('zinc', 300);
 
 	constructor() {
 		// Asignación inicial para dibujar skeletons
-		this.cards = this.contentService.contentConfig.cards;
-		this.previews = this.contentService.contentConfig.previews;
+		this.cards = [];
 		this.metaTagsDirective.setDefault();
 
 		const platformId = inject(PLATFORM_ID);
@@ -78,12 +72,9 @@ export class HomeComponent {
 
 	private loadStorylistDecks() {
 		this.fetchContentDirective
-			.fetchContent$<{ previews: StorylistCardDeck[]; cards: StorylistCardDeck[] }>(
-				this.contentService.fetchStorylistDecks(),
-			)
+			.fetchContent$<{ previews: Storylist[]; cards: StorylistTeaser[] }>(this.contentService.fetchStorylistDecks())
 			.pipe(takeUntilDestroyed())
-			.subscribe(({ previews, cards }) => {
-				this.previews = previews;
+			.subscribe(({ cards }) => {
 				this.cards = cards;
 			});
 	}

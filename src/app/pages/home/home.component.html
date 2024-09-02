@@ -29,8 +29,8 @@
 
 	<section class="grid grid-cols-1 justify-items-center gap-8 lg:grid-cols-2">
 		@if (!!cards && cards.length) {
-			@for (deck of cards; track $index) {
-				<cuentoneta-storylist-card [storylist]="deck.storylist" class="card w-full"> </cuentoneta-storylist-card>
+			@for (storylist of cards; track $index) {
+				<cuentoneta-storylist-card [storylist]="storylist" class="card w-full"> </cuentoneta-storylist-card>
 			}
 		}
 	</section>

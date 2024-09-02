@@ -2,24 +2,14 @@
 import { client } from '../_helpers/sanity-connector';
 
 // Queries
-import { mapResources, mapStorylist, mapStorylistTeaser } from '../_utils/functions';
-import { fetchLandingPageContentQuery, fetchNewestStoriesQuery } from '../_queries/content.query';
-import { FetchLandingPageContentQueryResult, FetchNewestStoriesQueryResult } from '../sanity/types';
-import { SanityQueryArgs } from '../interfaces/queryArgs';
+import { fetchStorylistTeasers } from '../storylist/storylist.service';
+import { fetchNewestStoriesQuery } from '../_queries/content.query';
+import { FetchNewestStoriesQueryResult } from '../sanity/types';
 import { mapMediaSourcesForStorylist } from '../_utils/media-sources.functions';
 
 export async function fetchLandingPageContent() {
-	const result: FetchLandingPageContentQueryResult = await client.fetch(fetchLandingPageContentQuery);
-	const cards = [];
-	const previews = [];
-
-	for (const preview of result.previews) {
-		previews.push(await mapStorylist(preview));
-	}
-
-	for (const card of result.cards) {
-		cards.push(await mapStorylistTeaser(card));
-	}
+	const cards = await fetchStorylistTeasers();
+	const previews: [] = [];
 
 	return { previews, cards };
 }

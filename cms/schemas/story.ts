@@ -3,7 +3,7 @@ import { DocumentTextIcon, DocumentVideoIcon, PlayIcon, TwitterIcon } from '@san
 import { resource } from './resourceType';
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
-const audioRecording = defineField({
+const audioRecording = defineType({
 	name: 'audioRecording',
 	title: 'Grabación de audio con el relato del texto',
 	type: 'object',
@@ -11,13 +11,13 @@ const audioRecording = defineField({
 	preview: {
 		select: {
 			title: 'title',
-			url: 'spaceUrl',
+			spaceUrl: 'spaceUrl',
 		},
 		prepare(selection) {
-			const { title, url } = selection;
+			const { title, spaceUrl } = selection;
 			return {
 				title: `${title}`,
-				subtitle: ` URL Grabación: ${url}`,
+				subtitle: ` URL Grabación: ${spaceUrl}`,
 			};
 		},
 	},
@@ -26,30 +26,32 @@ const audioRecording = defineField({
 			name: 'title',
 			title: 'Título asignado a la grabación de audio',
 			type: 'string',
+			validation: (Rule) => Rule.required(),
 		},
 		{
 			name: 'url',
 			title: 'URL del archivo de audio (mp3, wav, etc.)',
 			type: 'url',
+			validation: (Rule) => Rule.required(),
 		},
 	],
 });
 
-const spaceRecording = defineField({
+const spaceRecording = defineType({
 	name: 'spaceRecording',
 	title: 'Grabación de Spaces de X',
 	type: 'object',
 	icon: TwitterIcon,
 	preview: {
 		select: {
-			title: 'postId',
-			url: 'spaceUrl',
+			title: 'title',
+			spaceUrl: 'spaceUrl',
 		},
 		prepare(selection) {
-			const { title, url } = selection;
+			const { title, spaceUrl } = selection;
 			return {
-				title: `${title} | ID Tweet: ${'abc'} | URL Grabación: ${url}`,
-				subtitle: `${url}`,
+				title: `${title} | ID Tweet: ${'abc'} | URL Grabación: ${spaceUrl}`,
+				subtitle: `${spaceUrl}`,
 			};
 		},
 	},
@@ -58,26 +60,30 @@ const spaceRecording = defineField({
 			name: 'postId',
 			title: 'ID de post de X',
 			type: 'string',
+			validation: (Rule) => Rule.required(),
 		},
 		{
 			name: 'title',
 			title: 'Título del Space',
 			type: 'string',
+			validation: (Rule) => Rule.required(),
 		},
 		{
 			name: 'spaceUrl',
 			title: 'URL de la grabación del space',
 			type: 'url',
+			validation: (Rule) => Rule.required(),
 		},
 		{
 			name: 'duration',
 			title: 'Duración del space',
 			type: 'string',
+			validation: (Rule) => Rule.required(),
 		},
 	],
 });
 
-const youtubeVideo = defineField({
+const youtubeVideo = defineType({
 	name: 'youTubeVideo',
 	title: 'Video de YouTube',
 	type: 'object',
@@ -100,16 +106,19 @@ const youtubeVideo = defineField({
 			name: 'title',
 			title: 'Título del video',
 			type: 'string',
+			validation: (Rule) => Rule.required(),
 		},
 		{
 			name: 'description',
 			title: 'Descripción del video',
 			type: 'blockContent',
+			validation: (Rule) => Rule.required(),
 		},
 		{
 			name: 'videoId',
 			title: 'ID del video de YouTube',
 			type: 'string',
+			validation: (Rule) => Rule.required(),
 		},
 	],
 });
@@ -147,6 +156,8 @@ export default defineType({
 				})),
 				layout: 'radio',
 			},
+			initialValue: 'es',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'author',
@@ -171,6 +182,7 @@ export default defineType({
 			name: 'badLanguage',
 			title: '¿Contiene lenguaje adulto?',
 			type: 'boolean',
+			initialValue: false,
 			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
@@ -178,6 +190,7 @@ export default defineType({
 			title: 'Tiempo de lectura aproximado',
 			type: 'computedNumber',
 			readOnly: true,
+			validation: (Rule) => Rule.required(),
 			options: {
 				buttonText: 'Recalcular',
 				documentQuerySelection: `
@@ -199,13 +212,11 @@ export default defineType({
 					return Math.ceil(wordCount / 200);
 				},
 			},
-			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'epigraphs',
 			title: 'Epígrafes',
 			type: 'array',
-			validation: (Rule) => Rule.required(),
 			of: [
 				defineArrayMember({
 					name: 'epigraph',
@@ -216,6 +227,7 @@ export default defineType({
 							name: 'text',
 							title: 'Texto del epígrafe',
 							type: 'blockContent',
+							validation: (Rule) => Rule.required(),
 						},
 						{
 							name: 'reference',
@@ -231,7 +243,6 @@ export default defineType({
 			name: 'body',
 			title: 'Cuerpo del cuento',
 			type: 'blockContent',
-			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'review',
@@ -242,11 +253,9 @@ export default defineType({
 			name: 'originalPublication',
 			title: 'Publicación original',
 			type: 'string',
+			validation: (Rule) => Rule.required(),
 		}),
 	],
-	initialValue: {
-		language: 'es',
-	},
 	preview: {
 		select: {
 			title: 'title',
