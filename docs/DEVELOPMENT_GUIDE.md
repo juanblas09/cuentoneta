@@ -84,6 +84,17 @@ Junto con Nx, el proyecto cuenta con ESLint y Prettier ya configuradas como depe
 - **<a href="https://jestjs.io/docs/getting-started">Jest</a>** como framework de testing unitario
 - **<a href="https://www.cypress.io/">Cypress</a>** como framework de testing end-to-end
 
+### Para generación y visualización de diagramas
+
+- **<a href="https://mermaid.js.org/">Mermaid</a>** como herramienta para la generación y visualización de diagramas dentro de archivos Markdown.
+
+Para poder hacer uso de las funcionalidades de Mermaid dentro del entorno de trabajo local, es necesario contar con una extensión para el IDE o editor de texto que se esté utilizando.
+
+- En el caso de Visual Studio Code, se recomienda la extensión [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid).
+- En el caso de WebStorm, se recomienda la extensión [Markdown Mermaid](https://plugins.jetbrains.com/plugin/20146-mermaid/), la cual requiere la instalación previa de la extensión [Markdown](https://plugins.jetbrains.com/plugin/7793-markdown). Para el caso de WebStorm, se detalla que ambos plugins son oficiales de Jetbrains.
+
+Para la edición y visualización online de los diagramas también puede optarse por utilizar el [Mermaid Live Editor](https://mermaid-js.github.io/mermaid-live-editor/), en el cual pueden copiarse y pegarse los diagramas disponibles en nuestro repositorio para su visualización y modificación.
+
 ---
 
 ## Instalación y configuración del entorno local
@@ -96,7 +107,7 @@ en el canal **[#🚐 | la-cuentoneta][dc-channel]** en Discord.
 
 - Tener instalada una versión de [Node](https://nodejs.org/es/) igual o superior a `v20.11.0`, idealmente la última
   versión LTS.
-- Instalar `pnpm`, un gestor de paquetes alternativo para Node: `npm install -g pnpm`. Se recomienda la versión `8.2.0` o superior.
+- Instalar `pnpm`, un gestor de paquetes alternativo para Node: `npm install -g pnpm`. Se recomienda la versión `9.8.0` o superior.
 - Instalar `nx`, un CLI para desarrollo de monorepos: `pnpm install -g nx`. Se recomienda la versión `19.0.0` o
   superior.
 - Tener un editor de texto o IDE ([Visual Studio Code](https://code.visualstudio.com/), [Vim](https://www.vim.org/), [WebStorm](https://www.jetbrains.com/es-es/webstorm/), etc).
