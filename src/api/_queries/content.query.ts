@@ -1,6 +1,6 @@
 import { defineQuery } from 'groq';
 
-export const fetchNewestStoriesQuery = defineQuery(`*[_type == 'story'][$start...$end]
+export const fetchNewestStoriesQuery = defineQuery(`*[_type == 'story' && !(_id in path('drafts.**'))]
 {
     _createdAt,
     'slug': slug.current,

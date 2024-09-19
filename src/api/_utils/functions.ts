@@ -147,19 +147,24 @@ export function mapStorylist(result: NonNullable<StorylistQueryResult>): Storyli
 	};
 }
 
-export function mapNewestStories(result: FetchNewestStoriesQueryResult) {
+export function mapNewestStories(result: FetchNewestStoriesQueryResult): StoryPreview[] {
 	const stories = [];
 	// Toma las publicaciones que fueron traídas en la consulta a Sanity y las mapea a una colección de publicaciones
 	for (const story of result) {
-		const { body, mediaSources, _createdAt, ...properties } = story;
+		const { body, mediaSources, _createdAt, author, ...properties } = story;
 
-		stories.push({
-			...properties,
-			media: mapMediaSourcesForStorylist(mediaSources),
-			resources: [],
-			paragraphs: body,
-		});
+		stories.push(
+			mapStoryPreviewContent({
+				...properties,
+				author: mapAuthorForStorylist({ ...author }),
+				media: mapMediaSourcesForStorylist(mediaSources),
+				paragraphs: mapBlockContentToTextParagraphs(body),
+				resources: [],
+			}),
+		);
 	}
+
+	return stories;
 }
 
 // TODO: Agregar soporte a futuro para mapear imágenes dentro del cuerpo de una story
