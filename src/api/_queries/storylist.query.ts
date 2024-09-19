@@ -13,6 +13,7 @@ export const storylistTeasersQuery = defineQuery(`*[_type == 'storylist']{
     'tags': coalesce(tags[] -> {
         title, 
         'slug': slug.current, 
+        shortDescription,
         description, 
         icon
     }, []),
@@ -34,6 +35,7 @@ export const storylistQuery = defineQuery(`*[_type == 'storylist' && slug.curren
     'tags': coalesce(tags[] -> {
         title, 
         'slug': slug.current, 
+        shortDescription,
         description, 
         icon
     }, []),
@@ -46,12 +48,11 @@ export const storylistQuery = defineQuery(`*[_type == 'storylist' && slug.curren
             title,
             language,
             badLanguage,
-            'categories': coalesce(categories[], []),
             body[0...3],
             originalPublication,
             approximateReadingTime,
             'mediaSources': coalesce(mediaSources[], []),
-            'author': author-> { slug, name, image, nationality-> }
+            'author': author-> { slug, name, image, nationality->, 'biography': [] }
         }
     }, []),
     'count': count(*[ _type == 'publication' && storylist._ref == ^._id ])

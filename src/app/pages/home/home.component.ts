@@ -12,7 +12,7 @@ import { ContentService } from '../../providers/content.service';
 import { ThemeService } from '../../providers/theme.service';
 
 // Models
-import { Storylist, StorylistTeaser } from '@models/storylist.model';
+import { StorylistTeaser } from '@models/storylist.model';
 
 // Directives
 import { FetchContentDirective } from '../../directives/fetch-content.directive';
@@ -72,7 +72,7 @@ export class HomeComponent {
 
 	private loadStorylistDecks() {
 		this.fetchContentDirective
-			.fetchContent$<{ previews: Storylist[]; cards: StorylistTeaser[] }>(this.contentService.fetchStorylistDecks())
+			.fetchContent$<{ cards: StorylistTeaser[] }>(this.contentService.getLandingPageContent())
 			.pipe(takeUntilDestroyed())
 			.subscribe(({ cards }) => {
 				this.cards = cards;

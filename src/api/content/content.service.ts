@@ -2,16 +2,22 @@
 import { client } from '../_helpers/sanity-connector';
 
 // Queries
-import { fetchStorylistTeasers } from '../storylist/storylist.service';
 import { fetchNewestStoriesQuery } from '../_queries/content.query';
-import { FetchNewestStoriesQueryResult } from '../sanity/types';
+
+// Funciones
+import { fetchStorylistTeasers } from '../storylist/storylist.service';
 import { mapMediaSourcesForStorylist } from '../_utils/media-sources.functions';
 
-export async function fetchLandingPageContent() {
-	const cards = await fetchStorylistTeasers();
-	const previews: [] = [];
+// Tipos
+import { FetchNewestStoriesQueryResult } from '../sanity/types';
 
-	return { previews, cards };
+// Modelos
+import { LandingPageContent } from '@models/landing-page-content.model';
+
+export async function fetchLandingPageContent(): Promise<LandingPageContent> {
+	const cards = await fetchStorylistTeasers();
+
+	return { cards };
 }
 
 export async function fetchNewestStories(args: { limit: number }) {

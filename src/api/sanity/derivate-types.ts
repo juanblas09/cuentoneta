@@ -37,12 +37,14 @@ export type ImageQueryResult = {
 
 export type MediaResourcesSubQueryResult = Array<
 	| {
+			description: BlockContent;
 			url?: string;
 			title: string;
 			_type: 'audioRecording';
 			_key: string;
 	  }
 	| {
+			description: BlockContent;
 			url?: string;
 			postId?: string;
 			duration?: string;
@@ -51,7 +53,7 @@ export type MediaResourcesSubQueryResult = Array<
 			_key: string;
 	  }
 	| {
-			description?: BlockContent;
+			description: BlockContent;
 			videoId?: string;
 			title: string;
 			_type: 'youTubeVideo';
@@ -78,19 +80,22 @@ export type PublicationSubQueryResult = Array<{
 		title: string;
 		language: 'en' | 'es';
 		badLanguage: boolean;
-		categories: Array<never>;
 		body: BlockContent;
 		originalPublication: string;
 		approximateReadingTime: number;
 		mediaSources: MediaResourcesSubQueryResult;
-		author: {
-			slug: Slug;
-			name: string;
-			image: ImageQueryResult;
-			nationality: NationalitySubQueryResult;
-		};
+		author: PublicationAuthorSubQueryResult;
 	};
 }>;
+
+export type PublicationAuthorSubQueryResult = {
+	slug: Slug;
+	name: string;
+	image: ImageQueryResult;
+	nationality: NationalitySubQueryResult;
+	biography: Array<never>;
+	resources: Array<never>;
+};
 
 export type ResourceSubQueryResult =
 	| Array<{
@@ -98,7 +103,8 @@ export type ResourceSubQueryResult =
 			url: string;
 			resourceType: {
 				title: string;
-				description: string;
+				shortDescription: string;
+				description: BlockContent;
 				icon: IconPicker;
 			};
 	  }>
@@ -110,7 +116,8 @@ export type TagsSubQueryResult =
 	| Array<{
 			title: string;
 			slug: string;
-			description: string;
+			shortDescription: string;
+			description: BlockContent;
 			icon: IconPicker;
 	  }>
 	| Array<never>;

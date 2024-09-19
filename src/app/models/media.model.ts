@@ -14,8 +14,8 @@ import { BlockContent } from '../../api/sanity/generated-schema-types';
  */
 export interface Media {
 	title: string;
+	description: TextBlockContent[];
 	type: MediaTypeKey;
-	icon: string;
 	data?: unknown;
 }
 
@@ -28,7 +28,7 @@ export interface SpaceRecording extends Media {
 }
 
 export interface YouTubeVideo extends Media {
-	data: { description: TextBlockContent; videoId: string };
+	data: { videoId: string };
 }
 
 export type MediaTypes = AudioRecording | SpaceRecording | YouTubeVideo;
@@ -42,6 +42,7 @@ export interface MediaSchemaObject {
 	_type: MediaTypeKey;
 	title: string;
 	icon: string;
+	description: BlockContent;
 }
 
 export interface SpaceRecordingSchemaObject extends MediaSchemaObject {
