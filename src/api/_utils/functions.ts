@@ -12,7 +12,7 @@ import imageUrlBuilder from '@sanity/image-url';
 
 // Modelos
 import { Author, AuthorTeaser } from '@models/author.model';
-import { BlockContent, StorylistTeasersQueryResult } from '../sanity/types';
+import { BlockContent, FetchNewestStoriesQueryResult, StorylistTeasersQueryResult } from '../sanity/types';
 import { Resource } from '@models/resource.model';
 import { Publication, Storylist, StorylistTeaser } from '@models/storylist.model';
 import { Story, StoryPreview, StoryTeaser } from '@models/story.model';
@@ -145,6 +145,21 @@ export function mapStorylist(result: NonNullable<StorylistQueryResult>): Storyli
 		featuredImage: urlFor(result.featuredImage),
 		publications,
 	};
+}
+
+export function mapNewestStories(result: FetchNewestStoriesQueryResult) {
+	const stories = [];
+	// Toma las publicaciones que fueron traídas en la consulta a Sanity y las mapea a una colección de publicaciones
+	for (const story of result) {
+		const { body, mediaSources, _createdAt, ...properties } = story;
+
+		stories.push({
+			...properties,
+			media: mapMediaSourcesForStorylist(mediaSources),
+			resources: [],
+			paragraphs: body,
+		});
+	}
 }
 
 // TODO: Agregar soporte a futuro para mapear imágenes dentro del cuerpo de una story

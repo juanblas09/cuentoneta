@@ -1,26 +1,23 @@
 import { defineQuery } from 'groq';
 
-export const fetchNewestStoriesQuery = defineQuery(`*[_type == 'story']
+export const fetchNewestStoriesQuery = defineQuery(`*[_type == 'story'][$start...$end]
 {
     _createdAt,
     'slug': slug.current,
     title,
     language,
     badLanguage,
-    categories,
-    body[0...3],
+    'body': coalesce(body[0...3], []),
     originalPublication,
     approximateReadingTime,
-    mediaSources[]{ 
-        _id,
-        _type,
-        title, 
-        icon
-    },
-    'author': author->{
+    'resources': [],
+    'mediaSources': coalesce(mediaSources[], []),
+    'author': author->{ 
         slug,
         name,
         image,
-         nationality->
+        nationality->,
+        'biography': [],
+        'resources': [],
     }
 }|order(_createdAt desc)[$start...$end]`);
