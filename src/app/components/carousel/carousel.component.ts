@@ -13,7 +13,7 @@ import { ContentCampaign } from '@models/content.model';
 			<owl-carousel-o [options]="options" class="mx-auto block max-w-[960px]">
 				@for (slide of slides(); track slide.title) {
 					<ng-template carouselSlide>
-						<div class="slide">
+						<div class="slide mx-3">
 							<a [routerLink]="slide.url" class="mx-3 md:hidden">
 								<header class="mb-3">
 									<h3 class="text-lg font-bold tracking-normal">{{ slide.shortTitle }}</h3>
