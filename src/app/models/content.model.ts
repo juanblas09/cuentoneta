@@ -1,6 +1,9 @@
 export interface ContentCampaign {
 	title: string;
+	shortTitle: string;
+	shortDescription: string;
 	description: string;
-	imageUrl: string;
+	smallImageUrl: string;
+	largeImageUrl: string;
 	url: string;
 }

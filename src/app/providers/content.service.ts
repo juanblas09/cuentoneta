@@ -30,15 +30,30 @@ export class ContentService {
 	public getContentCampaigns$(): Observable<ContentCampaign[]> {
 		return of([
 			{
+				shortTitle: 'Desde el barrio de Flores...',
 				title: 'Desde el barrio de Flores...',
-				description: '... cinco cuentos para la entrega #1 del ciclo "Pluma de la semana"',
-				imageUrl: './assets/img/pluma-de-la-semana-1.png',
+				shortDescription: '... la entrega #1 de este nuevo ciclo',
+				description: '... la entrega #1 del ciclo "Pluma de la semana"',
+				smallImageUrl: './assets/img/pluma-de-la-semana-1-small.jpg',
+				largeImageUrl: './assets/img/pluma-de-la-semana-1.jpg',
 				url: '../author/alejandro-dolina',
 			},
 			{
-				title: 'Los cuentos de la medianoche de iSAT',
+				shortTitle: 'Los cuentos de iSAT',
+				title: 'Los cuentos de iSAT',
+				shortDescription: '...recopilados en texto y video',
 				description: '...recopilados en texto y video con narración de Alberto Laiseca',
-				imageUrl: './assets/img/cuentos-de-terror.jpg',
+				smallImageUrl: './assets/img/cuentos-de-terror-small.jpg',
+				largeImageUrl: './assets/img/cuentos-de-terror.jpg',
+				url: '../storylist/cuentos-de-terror-de-alberto-laiseca',
+			},
+			{
+				shortTitle: 'Colección "Proyecto Territorio"',
+				title: 'De la colección "Proyecto Territorio" del Gobierno de Santa Fe',
+				shortDescription: 'Cuentos clásicos por autores santafesinos',
+				description: 'Una recopilación de cuentos clásicos de celebrados autores santafesinos',
+				smallImageUrl: './assets/img/ciudades-campos-pueblos-islas-small.jpg',
+				largeImageUrl: './assets/img/ciudades-campos-pueblos-islas.jpg',
 				url: '../storylist/cuentos-de-terror-de-alberto-laiseca',
 			},
 		]);

@@ -62,7 +62,7 @@ export default [
 			'@typescript-eslint/no-non-null-assertion': 'error',
 			'@typescript-eslint/no-explicit-any': 'error',
 			'no-extra-semi': 'off',
-			ignoreRestSiblings: 'on',
+			ignoreRestSiblings: 'off',
 		},
 	},
 	...compat.extends('plugin:@nx/angular-template').map((config) => ({

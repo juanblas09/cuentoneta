@@ -14,13 +14,20 @@ import { ContentCampaign } from '@models/content.model';
 				@for (slide of slides(); track slide.title) {
 					<ng-template carouselSlide>
 						<div class="slide">
-							<header class="mb-3">
-								<h3 class="text-lg font-bold tracking-normal">{{ slide.title }}</h3>
-								<h4 class="h4 subtitle text-gray-600">{{ slide.description }}</h4>
-							</header>
-							<a [routerLink]="slide.url"
-								><img [ngSrc]="slide.imageUrl" width="960" height="280" class="rounded-2xl" priority alt=""
-							/></a>
+							<a [routerLink]="slide.url" class="mx-3 md:hidden">
+								<header class="mb-3">
+									<h3 class="text-lg font-bold tracking-normal">{{ slide.shortTitle }}</h3>
+									<h4 class="h4 subtitle text-gray-600">{{ slide.shortDescription }}</h4>
+								</header>
+								<img [ngSrc]="slide.smallImageUrl" width="720" height="280" class="rounded-2xl" priority alt="" />
+							</a>
+							<a [routerLink]="slide.url" class="mx-3 max-sm:hidden">
+								<header class="mb-3">
+									<h3 class="text-lg font-bold tracking-normal">{{ slide.title }}</h3>
+									<h4 class="h4 subtitle text-gray-600">{{ slide.description }}</h4>
+								</header>
+								<img [ngSrc]="slide.largeImageUrl" width="960" height="280" class="rounded-2xl" priority alt="" />
+							</a>
 						</div>
 					</ng-template>
 				}

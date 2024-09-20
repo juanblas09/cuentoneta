@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 	selector: 'cuentoneta-root',
 	template: `
 		<cuentoneta-header />
-		<div class="mx-5 my-0 min-h-screen md:m-auto md:mt-5 md:max-w-screen-lg">
+		<div class="mx-5 mt-5 min-h-screen md:mx-auto md:max-w-screen-lg">
 			<router-outlet />
 		</div>
 		<cuentoneta-footer />
