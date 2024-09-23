@@ -1,6 +1,6 @@
 // Core
 import { inject, Injectable } from '@angular/core';
-import { map, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 // Interfaces
 import { ContentCampaign } from '@models/content.model';
@@ -19,12 +19,8 @@ export class ContentService {
 	// Services
 	private http = inject(HttpClient);
 
-	public getLandingPageContent(): Observable<LandingPageContent> {
-		return this.http.get<LandingPageContent>(`${this.prefix}/landing-page`).pipe(
-			map(({ cards }) => ({
-				cards: cards,
-			})),
-		);
+	public getLandingPageContent() {
+		return this.http.get<LandingPageContent>(`${this.prefix}/landing-page`);
 	}
 
 	public getContentCampaigns$(): Observable<ContentCampaign[]> {
