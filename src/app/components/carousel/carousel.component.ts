@@ -21,7 +21,7 @@ import { ContentCampaign } from '@models/content.model';
 								</header>
 								<img [ngSrc]="slide.smallImageUrl" width="720" height="280" class="rounded-2xl" priority alt="" />
 							</a>
-							<a [routerLink]="slide.url" class="mx-3 max-sm:hidden">
+							<a [routerLink]="slide.url" class="mx-3 max-md:hidden">
 								<header class="mb-3">
 									<h3 class="text-lg font-bold tracking-normal">{{ slide.title }}</h3>
 									<h4 class="h4 subtitle text-gray-600">{{ slide.description }}</h4>
