@@ -16,5 +16,5 @@ export interface ContentCampaignObj {
 	slug: string;
 	url: string;
 	description: TextBlockContent[];
-	contents: { [key in Viewport]: { title: TextBlockContent[]; description: TextBlockContent[]; imageUrl: string } };
+	contents: { [key in Viewport]: { title: TextBlockContent[]; subtitle: TextBlockContent[]; imageUrl: string } };
 }
