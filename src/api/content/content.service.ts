@@ -1,20 +1,25 @@
-// Sanity Client
+// Conector de Sanity
 import { client } from '../_helpers/sanity-connector';
-
-// Queries
-import { fetchNewestStoriesQuery } from '../_queries/content.query';
-
-// Funciones
-import { fetchStorylistTeasers } from '../storylist/storylist.service';
 
 // Modelos
 import { LandingPageContent } from '@models/landing-page-content.model';
 import { mapNewestStories } from '../_utils/functions';
 
-export async function fetchLandingPageContent(): Promise<LandingPageContent> {
-	const cards = await fetchStorylistTeasers();
+// Queries
+import { fetchNewestStoriesQuery } from '../_queries/content.query';
+import { landingPageContentQuery } from '../_queries/content.query';
 
-	return { cards };
+// Utils
+import { mapLandingPageContent } from '../_utils/functions';
+
+export async function fetchLandingPageContent(): Promise<LandingPageContent> {
+	const result = await client.fetch(landingPageContentQuery);
+
+	if (!result) {
+		throw new Error('Landing page content not found');
+	}
+
+	return mapLandingPageContent(result);
 }
 
 export async function fetchNewestStories(args: { limit: number }) {
