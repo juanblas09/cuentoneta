@@ -2,7 +2,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { RouterLink } from '@angular/router';
-import { ContentCampaign } from '@models/content.model';
+
+// Models
+import { ContentCampaign } from '@models/content-campaign.model';
+
+// Components
 import { PortableTextParserComponent } from '../portable-text-parser/portable-text-parser.component';
 
 @Component({
