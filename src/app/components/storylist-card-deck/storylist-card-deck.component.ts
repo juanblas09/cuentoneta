@@ -38,6 +38,11 @@ import { ThemeService } from '../../providers/theme.service';
 	],
 	templateUrl: './storylist-card-deck.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	styles: `
+		:host {
+			@apply grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8;
+		}
+	`,
 })
 export class StorylistCardDeckComponent {
 	storylist = input<Storylist>();
@@ -46,6 +51,5 @@ export class StorylistCardDeckComponent {
 	public router = inject(Router);
 	readonly appRoutes = AppRoutes;
 
-	private themeService = inject(ThemeService);
-	skeletonColor = this.themeService.pickColor('zinc', 300);
+	skeletonColor = inject(ThemeService).pickColor('zinc', 300);
 }
