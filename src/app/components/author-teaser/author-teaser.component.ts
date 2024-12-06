@@ -3,12 +3,11 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Author } from '@models/author.model';
 import { RouterLink } from '@angular/router';
 import { AppRoutes } from '../../app.routes';
-import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 
 @Component({
 	selector: 'cuentoneta-author-teaser',
 	standalone: true,
-	imports: [CommonModule, NgOptimizedImage, RouterLink, SvgIconComponent],
+	imports: [CommonModule, NgOptimizedImage, RouterLink],
 	template: ` <a
 		[routerLink]="['/', appRoutes.Author, author().slug]"
 		[ngClass]="{
@@ -28,14 +27,15 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 			}"
 		/>
 		<div class="block hover:!cursor-pointer">
-			<label
+			<h2
 				[ngClass]="{
 					'inter-body-base-semibold': variant() === 'sm',
 					'inter-body-lg-semibold': variant() === 'md'
 				}"
 				class="flex items-center hover:!cursor-pointer"
-				>{{ author().name }}<span class="icon-arrow-right"></span
-			></label>
+			>
+				{{ author().name }}<span class="icon-arrow-right"></span>
+			</h2>
 			@if (author().nationality; as nationality) {
 				<div class="flex items-center gap-2">
 					<img

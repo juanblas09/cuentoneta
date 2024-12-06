@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { SpaceRecording } from '@models/media.model';
 import { PortableTextParserComponent } from '../portable-text-parser/portable-text-parser.component';
@@ -8,13 +8,14 @@ import { PortableTextParserComponent } from '../portable-text-parser/portable-te
 	standalone: true,
 	imports: [CommonModule, NgOptimizedImage, PortableTextParserComponent],
 	template: `
-		<a [href]="spaceUrl" target="_blank" class="mb-2 block">
+		<a [href]="spaceUrl()" aria-label="space-recording-href" target="_blank" class="mb-2 block">
 			<section class="spaces-card inter-body-base grid grid-rows-3-auto rounded-lg p-4 text-white">
 				<div class="flex items-center justify-between text-base">
 					<div class="spaces-host flex gap-2.5">
 						<img
 							[ngSrc]="media().data.tweetBy.profileImage"
 							class="rounded-full border-1 border-solid border-white"
+							alt=" "
 							width="24"
 							height="24"
 						/>
@@ -26,17 +27,17 @@ import { PortableTextParserComponent } from '../portable-text-parser/portable-te
 						<div class="spaces-duration">{{ media().data.duration }}</div>
 					</div>
 				</div>
-				<h3 class="my-4 text-xl font-semibold text-white">
+				<h2 class="my-4 text-xl font-semibold text-white">
 					{{ media().title }}
-				</h3>
+				</h2>
 				<div class="rounded-3xl bg-[#fff4] p-2.5 text-center text-base font-bold no-underline hover:bg-[#1114]">
 					Reproducir Grabación en X
 				</div>
 			</section>
 		</a>
-		<label class="inter-body-xs-medium text-primary-500"
-			><cuentoneta-portable-text-parser [paragraphs]="media().description"
-		/></label>
+		<p class="inter-body-xs-medium text-primary-500">
+			<cuentoneta-portable-text-parser [paragraphs]="media().description" />
+		</p>
 	`,
 	styles: `
 		:host {
@@ -51,12 +52,5 @@ import { PortableTextParserComponent } from '../portable-text-parser/portable-te
 })
 export class SpaceRecordingWidgetComponent {
 	media = input.required<SpaceRecording>();
-
-	public spaceUrl: string = '';
-
-	constructor() {
-		effect(() => {
-			this.spaceUrl = this.media().data.entities.urls[0];
-		});
-	}
+	spaceUrl = computed(() => this.media().data.entities.urls[0]);
 }

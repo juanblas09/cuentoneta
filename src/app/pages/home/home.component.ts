@@ -1,17 +1,14 @@
 // Core
-import { Component, inject, PLATFORM_ID } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CommonModule, isPlatformBrowser, NgOptimizedImage } from '@angular/common';
-
-// Routing
-import { RouterModule } from '@angular/router';
-import { AppRoutes } from '../../app.routes';
+import { CommonModule } from '@angular/common';
 
 // Services
 import { ContentService } from '../../providers/content.service';
-import { ThemeService } from '../../providers/theme.service';
 
 // Models
+import { ContentCampaign } from '@models/content-campaign.model';
+import { LandingPageContent } from '@models/landing-page-content.model';
 import { StorylistTeaser } from '@models/storylist.model';
 
 // Directives
@@ -19,11 +16,10 @@ import { FetchContentDirective } from '../../directives/fetch-content.directive'
 import { MetaTagsDirective } from '../../directives/meta-tags.directive';
 
 // Componentes
-import { PublicationCardComponent } from '../../components/publication-card/publication-card.component';
-import { StorylistCardDeckComponent } from 'src/app/components/storylist-card-deck/storylist-card-deck.component';
+import { ContentCampaignCarouselComponent } from '../../components/content-campaign-carousel/content-campaign-carousel.component';
 import { StorylistCardComponent } from '../../components/storylist-card-component/storylist-card.component';
-import { CarouselComponent } from '../../components/carousel/carousel.component';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { ContentCampaignCarouselSkeletonComponent } from '../../components/content-campaign-carousel/content-campaign-carousel-skeleton.component';
+import { StorylistCardSkeletonComponent } from '../../components/storylist-card-component/storylist-card-skeleton.component';
 
 @Component({
 	selector: 'cuentoneta-home',
@@ -31,51 +27,37 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 	standalone: true,
 	imports: [
 		CommonModule,
-		NgOptimizedImage,
-		PublicationCardComponent,
-		StorylistCardDeckComponent,
-		RouterModule,
+		ContentCampaignCarouselComponent,
 		StorylistCardComponent,
-		CarouselComponent,
-		NgxSkeletonLoaderModule,
+		ContentCampaignCarouselSkeletonComponent,
+		StorylistCardSkeletonComponent,
 	],
 	hostDirectives: [FetchContentDirective, MetaTagsDirective],
 })
 export class HomeComponent {
-	readonly appRoutes = AppRoutes;
-
 	// Services
 	private contentService = inject(ContentService);
-	private themeService = inject(ThemeService);
 
 	// Directives
 	private fetchContentDirective = inject(FetchContentDirective);
 	private metaTagsDirective = inject(MetaTagsDirective);
 
+	// Asignación inicial para dibujar skeletons
 	cards: StorylistTeaser[] = [];
-	slides$ = this.contentService.getContentCampaigns$();
-	skeletonColor = this.themeService.pickColor('zinc', 300);
+	campaigns: ContentCampaign[] = [];
 
 	constructor() {
-		// Asignación inicial para dibujar skeletons
-		this.cards = [];
 		this.metaTagsDirective.setDefault();
-
-		const platformId = inject(PLATFORM_ID);
-		if (!isPlatformBrowser(platformId)) {
-			return;
-		}
-
-		// En cliente-side, posteriormente, se cargan los decks con las historias, según la configuración de contenido
-		this.loadStorylistDecks();
+		this.loadLandingPageContent();
 	}
 
-	private loadStorylistDecks() {
+	private loadLandingPageContent() {
 		this.fetchContentDirective
-			.fetchContent$<{ cards: StorylistTeaser[] }>(this.contentService.getLandingPageContent())
+			.fetchContent$<LandingPageContent>(this.contentService.getLandingPageContent())
 			.pipe(takeUntilDestroyed())
-			.subscribe(({ cards }) => {
+			.subscribe(({ cards, campaigns }) => {
 				this.cards = cards;
+				this.campaigns = campaigns;
 			});
 	}
 }

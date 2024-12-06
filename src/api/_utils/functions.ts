@@ -12,21 +12,23 @@ import imageUrlBuilder from '@sanity/image-url';
 
 // Modelos
 import { Author, AuthorTeaser } from '@models/author.model';
-import { BlockContent, LandingPageContentQueryResult, StorylistTeasersQueryResult } from '../sanity/types';
-import { ContentCampaign } from '@models/content-campaign.model';
+import { ContentCampaign, viewportElementSizes } from '@models/content-campaign.model';
 import { LandingPageContent } from '@models/landing-page-content.model';
 import { Publication, Storylist, StorylistTeaser } from '@models/storylist.model';
 import { Resource } from '@models/resource.model';
 import { Story, StoryPreview, StoryTeaser } from '@models/story.model';
-import { TextBlockContent } from '@models/block-content.model';
 import { Tag } from '@models/tag.model';
+import { TextBlockContent } from '@models/block-content.model';
 
 // Tipos de Sanity
 import {
 	AuthorBySlugQueryResult,
+	BlockContent,
+	LandingPageContentQueryResult,
 	StoriesByAuthorSlugQueryResult,
 	StoryBySlugQueryResult,
 	StorylistQueryResult,
+	StorylistTeasersQueryResult,
 } from '../sanity/types';
 
 export function mapAuthor(rawAuthorData: NonNullable<AuthorBySlugQueryResult>, language: 'es' | 'en' = 'es'): Author {
@@ -93,7 +95,6 @@ function mapResources(resources: ResourcesSubQuery): Resource[] {
 				icon: {
 					provider: resource.resourceType.icon.provider ?? '',
 					name: resource.resourceType.icon.name ?? '',
-					svg: resource.resourceType.icon ? `data:image/svg+xml,${resource.resourceType.icon.svg}` : '',
 				},
 			},
 		})) ?? []
@@ -108,7 +109,6 @@ function mapTags(tags: TagsSubQuery): Tag[] {
 		icon: {
 			provider: tag.icon.provider ?? '',
 			name: tag.icon.name ?? '',
-			svg: tag.icon ? `${tag.icon.svg}` : '',
 		},
 	}));
 }
@@ -162,7 +162,7 @@ export async function mapStoryContent(result: NonNullable<StoryBySlugQueryResult
 		})),
 		paragraphs: mapBlockContentToTextParagraphs(result.body),
 		summary: mapBlockContentToTextParagraphs(result.review),
-		author: mapAuthor(result.author),
+		author: mapAuthor(result.author, result.language),
 		media: await mapMediaSources(result.mediaSources),
 		resources: mapResources(result.resources),
 	};
@@ -211,8 +211,7 @@ export function mapLandingPageContent(result: NonNullable<LandingPageContentQuer
 type ContentCampaignsSubQuery = NonNullable<LandingPageContentQueryResult>['campaigns'];
 export function mapContentCampaigns(campaigns: ContentCampaignsSubQuery): ContentCampaign[] {
 	return campaigns.map((campaign) => {
-		const xs = campaign.contents.xs;
-		const md = campaign.contents.md;
+		const { xs, md } = campaign.contents;
 
 		if (!xs || !md) {
 			throw new Error('Campaign content not found');
@@ -227,11 +226,15 @@ export function mapContentCampaigns(campaigns: ContentCampaignsSubQuery): Conten
 					title: mapBlockContentToTextParagraphs(xs.title),
 					subtitle: mapBlockContentToTextParagraphs(xs.subtitle),
 					imageUrl: xs.image ? urlFor(xs.image) : '',
+					imageWidth: viewportElementSizes.xs.imageWidth,
+					imageHeight: viewportElementSizes.xs.imageHeight,
 				},
 				md: {
 					title: mapBlockContentToTextParagraphs(md.title),
 					subtitle: mapBlockContentToTextParagraphs(md.subtitle),
 					imageUrl: md.image ? urlFor(md.image) : '',
+					imageWidth: viewportElementSizes.md.imageWidth,
+					imageHeight: viewportElementSizes.md.imageHeight,
 				},
 			},
 		};
