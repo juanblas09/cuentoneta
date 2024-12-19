@@ -3,7 +3,7 @@
 	"public": true,
 	"name": "cuentoneta",
 	"installCommand": "pnpm install",
-	"devCommand": "pnpm run dev",
+	"devCommand": "node dist/cuentoneta/server/server.mjs",
 	"rewrites": [{ "source": "/(.*)", "destination": "/api" }],
 	"functions": {
 		"api/index.mjs": {
