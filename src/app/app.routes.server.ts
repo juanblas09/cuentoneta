@@ -39,6 +39,6 @@ export const serverRoutes: Array<ServerRoute> = [
 	},
 	{
 		path: '**',
-		renderMode: RenderMode.Client,
+		renderMode: RenderMode.Prerender,
 	},
 ];
