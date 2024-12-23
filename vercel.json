@@ -1,13 +1,15 @@
 {
 	"version": 2,
-	"public": true,
-	"name": "cuentoneta",
-	"installCommand": "pnpm install",
-	"devCommand": "pnpm run dev",
-	"rewrites": [{ "source": "/(.*)", "destination": "/api" }],
-	"functions": {
-		"api/index.mjs": {
-			"includeFiles": "dist/cuentoneta/**"
+	"builds": [
+		{
+			"src": "dist/server/main.js",
+			"use": "@vercel/node"
 		}
-	}
+	],
+	"routes": [
+		{
+			"src": "/(.*)",
+			"dest": "dist/server/main.js"
+		}
+	]
 }
