@@ -1,21 +1,26 @@
 import {
 	AngularNodeAppEngine,
+	CommonEngine,
 	createNodeRequestHandler,
 	isMainModule,
 	writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
-import { dirname, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import routes from './api/routes';
+import bootstrap from './main.server';
+import { APP_BASE_HREF } from '@angular/common';
 
 export function app(): express.Express {
 	const server = express();
 	const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 	const browserDistFolder = resolve(serverDistFolder, '../browser');
+	const indexHtml = join(serverDistFolder, 'index.server.html');
 
 	// Here, we now use the `AngularNodeAppEngine` instead of the `CommonEngine`
 	const angularNodeAppEngine = new AngularNodeAppEngine();
+	const commonEngine = new CommonEngine();
 
 	// Registra las routes utilizadas por la API
 	for (const route of routes) {
@@ -30,13 +35,22 @@ export function app(): express.Express {
 		}),
 	);
 
+	/**
+	 * Handle all other requests by rendering the Angular application.
+	 */
 	server.get('**', (req, res, next) => {
-		console.log('request', req.url, res.status);
+		const { protocol, originalUrl, baseUrl, headers } = req;
 
-		angularNodeAppEngine
-			.handle(req, { server: 'express' })
-			.then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
-			.catch(next);
+		commonEngine
+			.render({
+				bootstrap,
+				documentFilePath: indexHtml,
+				url: `${protocol}://${headers.host}${originalUrl}`,
+				publicPath: browserDistFolder,
+				providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+			})
+			.then((html) => res.send(html))
+			.catch((err) => next(err));
 	});
 
 	return server;
