@@ -27,16 +27,17 @@ export function app(): express.Express {
 	server.use(
 		express.static(browserDistFolder, {
 			maxAge: '1y',
-			index: 'index.html',
+			index: false,
+			redirect: false,
 		}),
 	);
 
 	/**
 	 * Handle all other requests by rendering the Angular application.
 	 */
-	server.use('**', (req, res, next) => {
+	server.use('/**', (req, res, next) => {
 		angularApp
-			.handle(req, { server: 'express' })
+			.handle(req)
 			.then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
 			.catch(next);
 	});
