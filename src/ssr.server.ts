@@ -27,8 +27,7 @@ export function app(): express.Express {
 	server.use(
 		express.static(browserDistFolder, {
 			maxAge: '1y',
-			index: false,
-			redirect: false,
+			index: 'index.html',
 		}),
 	);
 
