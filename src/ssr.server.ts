@@ -35,9 +35,7 @@ export function app(): express.Express {
 	/**
 	 * Handle all other requests by rendering the Angular application.
 	 */
-	server.use('/**', (req, res, next) => {
-		// Yes, this is executed in devMode via the Vite DevServer
-		console.log('request', req.url, res.status);
+	server.use('**', (req, res, next) => {
 		angularApp
 			.handle(req, { server: 'express' })
 			.then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
