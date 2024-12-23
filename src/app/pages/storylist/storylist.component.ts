@@ -56,6 +56,6 @@ export class StorylistComponent {
 
 	private storylist$(slug: string): Observable<Storylist> {
 		this.storylist = undefined;
-		return this.fetchContentDirective.fetchContent$<Storylist>(this.storylistService.get(slug, 60, 'asc'));
+		return this.storylistService.get(slug, 60, 'asc');
 	}
 }

@@ -92,7 +92,7 @@ export class StorylistNavigationFrameComponent extends NavigationFrameComponent 
 	}
 
 	private storylist$(navigationSlug: string) {
-		return this.fetchContentDirective.fetchContent$<Storylist>(this.storylistService.get(navigationSlug, 9));
+		return this.storylistService.get(navigationSlug, 9);
 	}
 
 	/**

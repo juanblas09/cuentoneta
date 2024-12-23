@@ -121,9 +121,7 @@ export class AuthorComponent {
 
 	private content$(params: Params) {
 		const { slug } = params;
-		return this.fetchContentDirective.fetchContent$(
-			combineLatest({ author: this.author$(slug), stories: this.stories$(slug) }),
-		);
+		return combineLatest({ author: this.author$(slug), stories: this.stories$(slug) });
 	}
 
 	private author$(slug: string) {

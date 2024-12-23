@@ -106,12 +106,10 @@ export class StoryComponent {
 	}
 
 	private story$(slug: string): Observable<Story> {
-		return this.fetchContentDirective.fetchContent$<Story>(
-			this.storyService.getBySlug(slug).pipe(
-				tap((story) => {
-					this.updateMetaTags(story);
-				}),
-			),
+		return this.storyService.getBySlug(slug).pipe(
+			tap((story) => {
+				this.updateMetaTags(story);
+			}),
 		);
 	}
 }
