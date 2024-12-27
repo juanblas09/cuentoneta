@@ -1,6 +1,6 @@
 // Core
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 // Router
 import { RouterLink } from '@angular/router';
@@ -18,15 +18,7 @@ import { PortableTextParserComponent } from '../portable-text-parser/portable-te
 
 @Component({
 	selector: 'cuentoneta-storylist-card',
-	standalone: true,
-	imports: [
-		CommonModule,
-		NgOptimizedImage,
-		BadgeComponent,
-		RouterLink,
-		NgxSkeletonLoaderModule,
-		PortableTextParserComponent,
-	],
+	imports: [CommonModule, BadgeComponent, RouterLink, NgxSkeletonLoaderModule, PortableTextParserComponent],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
 		<article class="shadow-lg hover:shadow-lg-hover">
@@ -40,12 +32,10 @@ import { PortableTextParserComponent } from '../portable-text-parser/portable-te
 						>
 							{{ storylist.title }}
 						</h1>
-						<p class="inter-body-base-regular h-24 text-gray-600">
-							<cuentoneta-portable-text-parser
-								[paragraphs]="storylist.description"
-								class="line-clamp-4 min-h-24 text-ellipsis"
-							></cuentoneta-portable-text-parser>
-						</p>
+						<cuentoneta-portable-text-parser
+							[paragraphs]="storylist.description"
+							class="inter-body-base-regular line-clamp-4 h-24 min-h-24 text-ellipsis text-gray-600"
+						></cuentoneta-portable-text-parser>
 						<hr class="text-gray-300" />
 					</section>
 					<footer

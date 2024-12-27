@@ -12,7 +12,6 @@ import { Storylist } from '@models/storylist.model';
 // Components
 import { PublicationCardComponent } from '../publication-card/publication-card.component';
 import { StoryCardSkeletonComponent } from '../story-card-skeleton/story-card-skeleton.component';
-import { PortableTextParserComponent } from '../portable-text-parser/portable-text-parser.component';
 
 // Pipes
 import { MapPublicationComingNextLabelPipe } from '../../pipes/map-publication-coming-next-label.pipe';
@@ -26,13 +25,11 @@ import { ThemeService } from '../../providers/theme.service';
 
 @Component({
 	selector: 'cuentoneta-storylist-card-deck',
-	standalone: true,
 	imports: [
 		CommonModule,
 		MapPublicationComingNextLabelPipe,
 		MapPublicationEditionLabelPipe,
 		NgxSkeletonLoaderModule,
-		PortableTextParserComponent,
 		PublicationCardComponent,
 		StoryCardSkeletonComponent,
 	],
