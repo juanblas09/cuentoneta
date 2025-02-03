@@ -12,6 +12,40 @@
 
 <ng-template #storylistTitleTemplate>
 	@if (!!storylist) {
+        <section class="p-6 bg-white rounded-2xl border-primary-500 border-1">
+		<ol class="grid grid-cols-1 gap-x-0 gap-y-6 md:grid-cols-2">
+			@for (publication of storylist.publications; track $index) {
+				<li class="flex gap-1">
+					<span class="mr-2 text-3xl font-bold text-primary-500">
+                        @let adjustedIndex = $index + 1;
+                        @let index = adjustedIndex > 9 ? adjustedIndex : '0' + adjustedIndex;
+                        {{ index }}.
+
+                        @let story = publication.story;
+                        @let author = publication.story.author;
+                    </span>
+					<section class="flex flex-col gap-2">
+						<div class="mt-1 flex items-center gap-2">
+							<img
+								[ngSrc]="author.imageUrl"
+								class="h-[20px] w-[20px] rounded-full"
+								width="20"
+								height="20"
+							/>
+							<span class="inter-body-sm font-semibold text-gray-600">{{ author.name }}</span>
+						</div>
+						<h2 class="inter-body-xl font-bold">{{ story.title }}</h2>
+						<div class="inter-body-sm flex items-center text-gray-600 gap-2">
+                            <span>{{ story.approximateReadingTime }} minutos </span>
+                            <span class="font-black text-md">·</span>
+                            <span>Leer</span>
+						</div>
+					</section>
+				</li>
+			}
+		</ol>
+        </section>
+
 		<div class="grid grid-cols-1 gap-4 xs:max-md:!col-span-1 md:grid-cols-[auto_1fr]">
 			<div class="flex justify-center md:justify-start">
 				<img
