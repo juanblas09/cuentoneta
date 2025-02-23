@@ -13,7 +13,7 @@
 	"crons": [
 		{
 			"path": "/api/story/most-read",
-			"schedule": "33 22 * * *"
+			"schedule": "40 22 * * *"
 		}
 	]
 }
