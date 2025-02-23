@@ -14,7 +14,7 @@
 		{
 			"name": "most-read",
 			"path": "/api/story/most-read",
-			"schedule": "*/1 * * * *"
+			"schedule": "30 22 * * *"
 		}
 	]
 }
