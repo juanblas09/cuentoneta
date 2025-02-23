@@ -39,6 +39,8 @@ export async function fetchStoryBySlug(slug: string): Promise<Story> {
 export async function fetchMostRead(limit: number = 6, offset: number = 0): Promise<StoryNavigationTeaser[]> {
 	const result = await contentService.fetchLandingPageContent();
 
+	console.log('executed');
+
 	if (!result) {
 		throw new Error(`Could not fetch most read stories`);
 	}

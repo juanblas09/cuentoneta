@@ -9,5 +9,12 @@
 		"api/index.mjs": {
 			"includeFiles": "dist/cuentoneta/**"
 		}
-	}
+	},
+	"crons": [
+		{
+			"name": "most-read",
+			"path": "/api/story/most-read",
+			"schedule": "*/1 * * * *"
+		}
+	]
 }
