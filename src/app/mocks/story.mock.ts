@@ -4,6 +4,7 @@ import { Publication, Storylist } from '@models/storylist.model';
 import { tagMock } from './tag.mocks';
 
 export const storyMock: Story = {
+	_id: 'story-1',
 	resources: [
 		{
 			title: 'Recurso original',
@@ -42,26 +43,56 @@ export const storyMock: Story = {
 	language: 'es',
 	media: [
 		{
-			title: 'Video',
+			title: 'Narración del cuento a cargo de Gérard Depardieu',
 			type: 'youTubeVideo',
 			description: [
 				{
-					style: 'normal',
-					_key: '338be209b296',
-					markDefs: [],
+					markDefs: [
+						{
+							href: 'https://www.youtube.com/@CanalMas',
+							_key: '213348c4e976',
+							_type: 'link',
+						},
+					],
 					children: [
 						{
-							text: 'Narración del cuento a cargo de Gérard Depardieu',
-							_key: '1adaad6a0f84',
+							_type: 'span',
+							marks: [],
+							text: 'Narración del cuento a cargo de Gérard Depardieu, transmitido como parte de un episodio de su programa radial ',
+							_key: '0ee084c6737c',
+						},
+						{
+							text: 'Le Ble Chateau',
+							_key: 'b53d65716513',
+							_type: 'span',
+							marks: ['em'],
+						},
+						{
+							marks: [],
+							text: ', tomado del canal de ',
+							_key: '462fa9bc3533',
+							_type: 'span',
+						},
+						{
+							_type: 'span',
+							marks: ['213348c4e976'],
+							text: 'Canal+',
+							_key: 'a2a6c6ca73bc',
+						},
+						{
+							text: '.',
+							_key: '44b2cc7f7eb3',
 							_type: 'span',
 							marks: [],
 						},
 					],
 					_type: 'block',
+					style: 'normal',
+					_key: '2baecc647476',
 				},
 			],
 			data: {
-				videoId: 'pB4GTan0y64',
+				videoId: 'YmDQTmbc_CU',
 			},
 		},
 	],
@@ -308,6 +339,7 @@ export const storyMock: Story = {
 };
 
 export const storyPreviewMock: StoryPreview = {
+	_id: 'story-1',
 	resources: [
 		{
 			title: 'Recurso original',
@@ -431,6 +463,7 @@ export const storyPreviewMock: StoryPreview = {
 };
 
 export const storyTeaserMock: StoryTeaser = {
+	_id: 'story-1',
 	resources: [
 		{
 			title: 'Recurso original',
@@ -469,26 +502,56 @@ export const storyTeaserMock: StoryTeaser = {
 	language: 'es',
 	media: [
 		{
-			title: 'Video',
+			title: 'Narración del cuento a cargo de Gérard Depardieu',
 			type: 'youTubeVideo',
 			description: [
 				{
-					style: 'normal',
-					_key: '338be209b296',
-					markDefs: [],
+					markDefs: [
+						{
+							href: 'https://www.youtube.com/@CanalMas',
+							_key: '213348c4e976',
+							_type: 'link',
+						},
+					],
 					children: [
 						{
-							text: 'Narración del cuento a cargo de Gérard Depardieu',
-							_key: '1adaad6a0f84',
+							_type: 'span',
+							marks: [],
+							text: 'Narración del cuento a cargo de Gérard Depardieu, transmitido como parte de un episodio de su programa radial ',
+							_key: '0ee084c6737c',
+						},
+						{
+							text: 'Le Ble Chateau',
+							_key: 'b53d65716513',
+							_type: 'span',
+							marks: ['em'],
+						},
+						{
+							marks: [],
+							text: ', tomado del canal de ',
+							_key: '462fa9bc3533',
+							_type: 'span',
+						},
+						{
+							_type: 'span',
+							marks: ['213348c4e976'],
+							text: 'Canal+',
+							_key: 'a2a6c6ca73bc',
+						},
+						{
+							text: '.',
+							_key: '44b2cc7f7eb3',
 							_type: 'span',
 							marks: [],
 						},
 					],
 					_type: 'block',
+					style: 'normal',
+					_key: '2baecc647476',
 				},
 			],
 			data: {
-				videoId: 'pB4GTan0y64',
+				videoId: 'YmDQTmbc_CU',
 			},
 		},
 	],
